@@ -8,12 +8,13 @@
     "@testing-library/user-event": "^7.1.2",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
-    "react-scripts": "3.4.1"
+    "react-scripts": "3.4.1",
+    "styled-components": "^5.0.1"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
+    "start": "react-app-rewired start start",
+    "build": "react-app-rewired start build",
+    "test": "react-app-rewired start test",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -30,5 +31,10 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "babel-plugin-styled-components": "^1.10.7",
+    "customize-cra": "^0.9.1",
+    "react-app-rewired": "^2.1.5"
   }
 }
