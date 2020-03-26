@@ -2,7 +2,7 @@ const theme = {
   colors: {
     offWhite:"#f4f4f4",
     pink: "#FD749B",
-    lightPurple: "#7180AC",
+    lightPurple: "#7180AC", 
     grey: "#F8F8F8",
     turq: "#1B9AAA",
     blue: "#1E62A1",
@@ -18,7 +18,7 @@ const theme = {
     }
   },
   typography: {
-    fontFamily: "Poppins",
+    fontFamily: 'Poppins, sans-serif',
     h1: {
       fontSize: "42px"
     },
@@ -31,7 +31,7 @@ const theme = {
     },
 
     h4: {
-        fontSize: "24px"
+        fontSize: "calc(10px + 2vmin)"
     }, 
 
     h6: {

@@ -5,29 +5,36 @@ const GlobalStyles = createGlobalStyle`
 
 body {
     font-family: ${({theme}) => theme.typography.fontFamily};
+    font-family: 'Poppins', sans-serif;
+    background-color:#FFFBF7;
 }
 
 h1 {
     font-size: ${({theme}) => theme.typography.h1.fontSize};
+    font-family: 'Poppins', sans-serif;
 }
 
 h2 {
     font-size: ${({theme}) => theme.typography.h2.fontSize};
+    font-family: 'Poppins', sans-serif;
 }
 
 
 h3 {
     font-size: ${({theme}) => theme.typography.h3.fontSize};
+    font-family: 'Poppins', sans-serif;
 }
 
 
 h4 {
     font-size: ${({theme}) => theme.typography.h4.fontSize};
+    font-family: 'Poppins', sans-serif;
 }
 
 h6 {
     font-size: ${({theme}) => theme.typography.h6.fontSize};
     font-weight: ${({theme}) => theme.typography.h6.fontWeight};
+    font-family: 'Poppins', sans-serif;
 }
 
 em {
