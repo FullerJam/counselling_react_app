@@ -2,8 +2,9 @@ const theme = {
   colors: {
     offWhite:"#f4f4f4",
     pink: "#FD749B",
-    lightPurple: "#7180AC", 
-    grey: "#F8F8F8",
+    lightPurple: "#7180AC",
+    green:"#0FE133", 
+    grey: "#F3F3F3",
     turq: "#1B9AAA",
     blue: "#1E62A1",
     yellow: "#FFC43D",
@@ -18,25 +19,26 @@ const theme = {
     }
   },
   typography: {
-    fontFamily: 'Poppins, sans-serif',
+    font: {
+      fontFamily:'Poppins, sans-serif'
+    },
     h1: {
-      fontSize: "42px"
+      fontSize: "calc(12px + 2vmin)"
     },
     h2: {
-        fontSize: "32px"
+        fontSize: "calc(11px + 2vmin)"
     },
 
     h3: {
-        fontSize: "24px"
+        fontSize: "calc(10px + 1.6vmin)"
     },
 
     h4: {
-        fontSize: "calc(10px + 2vmin)"
+        fontSize: "calc(8px + 2vmin)"
     }, 
 
     h6: {
       fontSize: "14px",
-      fontWeight: "bold"
     },
 
     em: {

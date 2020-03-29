@@ -19,6 +19,7 @@ margin: 1.5% auto;
 h4{
   margin:10px 0;
   color:white;
+  text-decoration:none;
 }
 img{
   max-height:70px

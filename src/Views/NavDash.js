@@ -42,41 +42,41 @@ function NavDash() {
                 <p>Welcome back! <br /> Choose from one of the options below</p>
             </ContentWrapper>
 
-            {/* <Link to="/appointments"> */}
-                <MenuTile>
+            <Link to="/appointments" style={{ textDecoration: 'none' }}>
+                <MenuTile >
                     <ImgContainer>
                         <img src={calendarIcon} alt="calendar icon" />
                     </ImgContainer>
                     <h4>APPOINTMENTS</h4>
                 </MenuTile>
-            {/* </Link>{" "} */}
+            </Link>
 
-            {/* <Link to="/advice"> */}
+            {/* <Link to="/advice" style={{ textDecoration: 'none' }}> */}
                 <MenuTile color={"#1E62A1"} >
                     <ImgContainer>
                         <img src={mentalHealthIcon} alt="mental health icon" />
                     </ImgContainer>
                     <h4>MENTAL HEALTH ADVICE</h4>
                 </MenuTile>
-            {/* </Link>{" "} */}
+            {/* </Link> */}
 
-            {/* <Link to="/chat"> */}
+            {/* <Link to="/chat" style={{ textDecoration: 'none' }}> */}
                 <MenuTile color={"#FFC43D"} >
                     <ImgContainer>
                         <img src={urgentChatIcon} alt="chat icon" />
                     </ImgContainer>
                     <h4>URGENT CHAT</h4>
                 </MenuTile>
-            {/* </Link>{" "} */}
+            {/* </Link> */}
 
-            {/* <Link to="/requestforletter"> */}
+            {/* <Link to="/requestforletter" style={{ textDecoration: 'none' }}> */}
                 <MenuTile color={"#FD749B"} >
                     <ImgContainer>
                         <img src={requestIcon} alt="request letter icon" />
                     </ImgContainer>
                     <h4>REQUEST FOR LETTER</h4>
                 </MenuTile>
-            {/* </Link>{" "} */}
+            {/* </Link> */}
         </div>
     )
 }

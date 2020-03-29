@@ -4,9 +4,14 @@ const GlobalStyles = createGlobalStyle`
 @import url('https://fonts.googleapis.com/css?family=Poppins&display=swap');
 
 body {
-    font-family: ${({theme}) => theme.typography.fontFamily};
+    font-family: ${({theme}) => theme.typography.font};
     font-family: 'Poppins', sans-serif;
     background-color:#FFFBF7;
+}
+
+input {
+    font-family: 'Poppins', sans-serif;
+
 }
 
 h1 {
@@ -23,6 +28,7 @@ h2 {
 h3 {
     font-size: ${({theme}) => theme.typography.h3.fontSize};
     font-family: 'Poppins', sans-serif;
+    
 }
 
 

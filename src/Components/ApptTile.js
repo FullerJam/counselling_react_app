@@ -11,18 +11,21 @@ const StyledApptWrapper = styled.div`
     justify-content:space-between;
     max-width:1000px;
     padding:20px;
+    margin:0 auto;
     h6{
         color:grey;
         margin:5px 0;
         padding:0px;
     }
     p{
-        font-size:15px;
+        font-size:13px;
         margin-top:4px;
+        color:${({ theme }) => theme.colors.green}
     }
 `
 const StyledDate = styled.p`
-    color:grey;
+    color:grey!important;
+    
 `
 const StyledIconCircle = styled.div`
     height:50px;
