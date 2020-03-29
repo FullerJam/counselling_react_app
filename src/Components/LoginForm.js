@@ -4,6 +4,8 @@ import Button from "../Components/Button"
 import styled from "styled-components"
 import { SocialIcon } from "react-social-icons"
 import { useForm } from 'react-hook-form'
+import { useLocation } from "react-router-dom";
+
 import * as yup from 'yup'
 
 import emailIcon from "../assets/email.png"
@@ -11,13 +13,15 @@ import passwordIcon from "../assets/password.png"
 
 const StyledH3 = styled.h4`
     color: ${({ theme }) => theme.colors.pink};
+    margin-bottom:10px;
   `;
 
 const StyledError = styled.div`
   p{
     color:red;
-    padding:10px;
+    padding:10px 0;
     margin:0px;
+    text-align:left;
   }
 `
 
@@ -26,39 +30,43 @@ const StyledSocialIcons = styled.div`
     justify-content: space-around;
     align-items:center;
     margin:0 auto;
-    max-width:200px;
+    max-width:120px;
     a: {
       cursor: pointer;
     }
   `;
 const StyledFormWrap = styled.div`
-  max-width:500px;
+  max-width:480px;
   margin:0 auto 30px;
   display:flex;
   justify-content:center;
   input{
     max-width:480px;
+    min-width:300px;
     background-repeat:no-repeat;
     float:left;
     padding-left:22px;
     background-position:97% center;
+    font-size:14px!important;
   }
   input::placeholder {
     font-size:14px;
-    font-family:${({ theme }) => theme.typography.font};
   }
 `
 
 const StyledInputImg = styled.div`
   input{
     background-image:url(${emailIcon});
+    font-size:14px;
   }
 `
 const StyledInputImg2 = styled.div`
   input{
     background-image:url(${passwordIcon});
+    font-size:14px;
   }
 `
+
 
 
 function LoginForm(props) {
@@ -87,16 +95,25 @@ function LoginForm(props) {
     onSocialLogin(provider)
   }
 
+  let firstButtonText
+
+  if(useLocation().pathname == "/sign_up"){
+    firstButtonText = "Sign up"
+  } else {
+    firstButtonText = "Sign in"
+  }
+
   return (
     <React.Fragment>
       <StyledSocialIcons>
         <SocialIcon onClick={() => handleSocialClick("facebook")} network="facebook" />
         <SocialIcon onClick={() => handleSocialClick("google")} network="google" />
       </StyledSocialIcons>
-      <StyledH3> OR </StyledH3>
+      <StyledH3>Or use your email to </StyledH3>
 
 
-      {!displayEmail && (<Button onClick={handleClick} m={"30px"} text="Email" />)}
+
+      {!displayEmail &&  (<Button onClick={handleClick} m={"10px"} text={firstButtonText} />)}
 
 
       {displayEmail && (
@@ -115,8 +132,10 @@ function LoginForm(props) {
             <StyledError>
               <p>{errors.password && errors.password.message}</p>
             </StyledError> <br />
-            <Button text={buttonText} />
-            {serverError}
+            <Button text={buttonText}/>
+            <StyledError>
+              {serverError}
+            </StyledError>
           </form>
         </StyledFormWrap>
       )}

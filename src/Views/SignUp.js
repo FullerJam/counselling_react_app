@@ -1,11 +1,10 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
-import person from "../assets/boy.png"
 import LoginForm from '../Components/LoginForm'
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 
-
+import signupimg from "../assets/signup.png"
 
 const StyledWrapper = styled.div`
     max-width:1000px;
@@ -14,9 +13,10 @@ const StyledWrapper = styled.div`
 `
 
 const StyledImg = styled.div`
-    width:94px;
-    height:94px;
+
     margin:0 auto;
+    display:flex;
+    justify-content:center;
 `
 
 const StyledH3 = styled.h3`
@@ -34,49 +34,44 @@ const StyledLink = styled(Link)`
         }
     `
 
-function Login(props) {
-    const { signInEmailUser, signInWithProvider } = props;
+function SignUp(props) {
+    const { createEmailUser, signInWithProvider } = props;
     const [error, setError] = useState();
 
-    const handleSubmit = async data => {
-        console.log(data);
+    const handleSubmit = async (data) => {
         const { email, password } = data;
-
+        console.log(data);
         try {
-            const user = await signInEmailUser(email, password);
+            await createEmailUser(email, password);
         } catch (error) {
             setError(error.message);
         }
-    };
-
-    const handleSocialLogin = provider => {
-        signInWithProvider(provider);
-    };
+    }
 
 
     return (
         <React.Fragment>
             <StyledWrapper>
                 <StyledImg>
-                    <img src={person} alt="person" />
+                    <img src={signupimg} alt="people_waving" />
                 </StyledImg>
-                <StyledH3>Use your social to sign in</StyledH3>
+                <StyledH3>Sign up today with your social account</StyledH3>
                 <LoginForm
                     onSubmit={handleSubmit}
                     serverError={error}
-                    buttonText={"LOGIN"}
+                    text={"SIGN UP"}
                 />
-                <StyledLink to="/sign_up">
-                    <h3>Not a member - Sign up now!</h3>
+                <StyledLink to="/login">
+                    <h3>Already a member? - Login</h3>
                 </StyledLink>
             </StyledWrapper>
         </React.Fragment>
     )
 }
 
-Login.propTypes = {
-    // signInEmailUser: PropTypes.func.isRequired,
-    // signInWithProvider: PropTypes.func.isRequired
+SignUp.propTypes = {
+    createEmailUser: PropTypes.func.isRequired
 }
 
-export default Login
+export default SignUp
+

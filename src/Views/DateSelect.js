@@ -23,10 +23,6 @@ const StyledH3 = styled.h3`
     color:${theme.colors.pink};
     margin-bottom:40px;
 `
-const StyledCalendarWrapper = styled.div`
-    color:${theme.colors.pink};
-    
-`
 
 const calendarStyle = {
     boxShadow: '3px 3px 10px #888',
@@ -50,7 +46,7 @@ function DateSelect(props) {
                 Choose your appointment date
             </StyledH3>
             <p>You will be allocated a time slot so please make sure you have no <br/> commitments on the day of your booking</p>
-                <div style={calendarStyle}> {/*wouldnt woRk directly on Calendar*/}
+                <div style={calendarStyle}> {/*wouldnt work directly on Calendar*/}
                     <Calendar onChange={onChange} />
                 </div>
                 <Button text={"SELECT DATE"} />

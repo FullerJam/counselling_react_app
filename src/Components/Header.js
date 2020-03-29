@@ -46,7 +46,7 @@ box-shadow: 0px 0.5px 1px rgba(0, 0, 0, 0.2);
 
 function Header(props) {
 
-  const { history } = props
+  const { history, user, signOut } = props
 
   const handleClick = () => {
     history.goBack();
@@ -56,9 +56,9 @@ function Header(props) {
       <StyledWrapper>
         <Back> <span onClick={handleClick} style={{ cursor: "pointer" }}><span style={{ fontSize: "18px" }}>‹&nbsp;</span>Back</span> </Back>
         <StyledUserAvatar>
-          <Link to="/login">
-            <h6>User  <span> (login/logout) </span></h6>
-          </Link>
+
+          <h6>{user.email} </h6> <span onClick={signOut} style={{margin:"0 0 0 10px", cursor:"pointer", textDecoration:"underline"}}> logout </span>
+
           <img src={avatarPlaceholder} alt="avatar" />
         </StyledUserAvatar>
       </StyledWrapper>
