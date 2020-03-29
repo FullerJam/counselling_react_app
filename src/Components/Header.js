@@ -3,7 +3,6 @@ import theme from "../config/theme.js"
 import PropTypes from "prop-types"
 import styled from "styled-components"
 import avatarPlaceholder from "../assets/avatar_placeholder.png"
-import { Link, useLocation } from "react-router-dom"
 
 const StyledUserAvatar = styled.div`
 color: ${({ theme }) => theme.colors.darkShade[50]};

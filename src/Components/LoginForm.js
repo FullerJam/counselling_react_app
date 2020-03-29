@@ -34,7 +34,8 @@ const StyledSocialIcons = styled.div`
     a: {
       cursor: pointer;
     }
-  `;
+  `
+
 const StyledFormWrap = styled.div`
   max-width:480px;
   margin:0 auto 30px;
@@ -86,8 +87,7 @@ function LoginForm(props) {
   const handleClick = e => {
     console.log("running")
     e.preventDefault();
-    setDisplayEmail(!displayEmail);
-
+    setDisplayEmail(!displayEmail)
   }
 
   const handleDataSubmit = data => { onSubmit(data) }
@@ -97,7 +97,7 @@ function LoginForm(props) {
 
   let firstButtonText
 
-  if(useLocation().pathname == "/sign_up"){
+  if (useLocation().pathname == "/sign_up") {
     firstButtonText = "Sign up"
   } else {
     firstButtonText = "Sign in"
@@ -113,31 +113,30 @@ function LoginForm(props) {
 
 
 
-      {!displayEmail &&  (<Button onClick={handleClick} m={"10px"} text={firstButtonText} />)}
+      {!displayEmail && (<Button onClick={handleClick} m={"10px"} text={firstButtonText} />)}
 
 
       {displayEmail && (
-
-        <StyledFormWrap>
-          <form onSubmit={handleSubmit(handleDataSubmit)}>
-            <StyledInputImg>
-              <input placeholder="Email" type="text" name="email" ref={register} />
-            </StyledInputImg>
-            <StyledError>
-              <p>{errors.email && errors.email.message}</p>
-            </StyledError>
-            <StyledInputImg2>
-              <input placeholder="Password" type="password" name="password" ref={register} />
-            </StyledInputImg2>
-            <StyledError>
-              <p>{errors.password && errors.password.message}</p>
-            </StyledError> <br />
-            <Button text={buttonText}/>
-            <StyledError>
-              {serverError}
-            </StyledError>
-          </form>
-        </StyledFormWrap>
+            <StyledFormWrap>
+              <form onSubmit={handleSubmit(handleDataSubmit)}>
+                <StyledInputImg>
+                  <input placeholder="Email" type="text" name="email" ref={register} />
+                </StyledInputImg>
+                <StyledError>
+                  <p>{errors.email && errors.email.message}</p>
+                </StyledError>
+                <StyledInputImg2>
+                  <input placeholder="Password" type="password" name="password" ref={register} />
+                </StyledInputImg2>
+                <StyledError>
+                  <p>{errors.password && errors.password.message}</p>
+                </StyledError> <br />
+                <Button text={buttonText} />
+                <StyledError>
+                  {serverError}
+                </StyledError>
+              </form>
+            </StyledFormWrap>
       )}
 
     </React.Fragment>

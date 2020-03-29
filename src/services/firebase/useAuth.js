@@ -7,9 +7,7 @@ function useAuth(fbAuth) {
    fbAuth.onAuthStateChanged(fbUser => {
       if (fbUser) {
          setIsAuthenticated(true)
-         console.log(isAuthenticated)
          setUser(fbUser)
-         console.log(user)
          return
       }
       setIsAuthenticated(false)
