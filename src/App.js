@@ -2,12 +2,16 @@ import React from "react"
 import theme from "./config/theme.js"
 import { ThemeProvider } from "styled-components"
 import GlobalStyles from "./config/GlobalStyles"
-import firebase from "firebase/app";
-import 'firebase/auth';
-import firebaseConfig from "./config/firebase"
-import useAuth from "./services/firebase/useAuth"
 
-import { AnimatePresence, motion } from "framer-motion"
+//firebase
+import firebase from "firebase/app";
+import firebaseConfig from "./config/firebase"
+import 'firebase/auth';
+import "firebase/firestore";
+import useAuth from "./services/firebase/useAuth"
+import useDateSelect from "./services/firebase/useDateSelect.js";
+
+import { AnimatePresence } from "framer-motion"
 import { Switch, useLocation, Route, Redirect } from "react-router-dom"
 import { createBrowserHistory } from 'history'
 
@@ -23,15 +27,6 @@ import RedirectRoute from "./Components/Redirect"
 
 const history = createBrowserHistory(); //back button
 
-const variants = {
-  in: {
-    opacity: 1
-  },
-  out: {
-    opacity: 0
-  }
-};
-
 function App() {
 
   if (firebase.apps.length === 0) {
@@ -45,8 +40,22 @@ function App() {
     signOut
   } = useAuth(firebase.auth());
 
+  const {
+    createAppointment,
+    readAppointment
+  } = useDateSelect(firebase.firestore)
+
 
   const location = useLocation();
+
+  const variants = {
+    in: {
+      opacity: 1
+    },
+    out: {
+      opacity: 0
+    }
+  }
 
 
   return (
@@ -56,36 +65,35 @@ function App() {
       {location.pathname !== "/sign_up" && location.pathname !== "/login" && (
         <Header history={history} user={user} signOut={signOut} />
       )}
+
       <AnimatePresence>
         <Switch>
+
           <Protected authenticated={isAuthenticated} exact path="/">
-            <motion.div initial="out" animate="in" exit="out" variants={variants}>
-              <NavDash />
-            </motion.div>
+            <NavDash variants={variants} />
           </Protected>
+
           <RedirectRoute authenticated={isAuthenticated} path="/login">
-            <motion.div initial="out" animate="in" exit="out" variants={variants}>
-              <Login signInEmailUser={signInEmailUser} location={location} />
-            </motion.div>
+            <Login signInEmailUser={signInEmailUser} location={location} variants={variants} />
           </RedirectRoute>
+
           <RedirectRoute authenticated={isAuthenticated} path="/sign_up" >
-            <motion.div initial="out" animate="in" exit="out" variants={variants}>
-              <SignUp createEmailUser={createEmailUser} />
-            </motion.div>
+            <SignUp createEmailUser={createEmailUser} variants={variants} />
           </RedirectRoute>
+
           <Protected authenticated={isAuthenticated} path="/appointments">
-            <motion.div initial="out" animate="in" exit="out" variants={variants}>
-              <Appointments />
-            </motion.div>
+            <Appointments variants={variants} />
           </Protected>
+
           <Protected authenticated={isAuthenticated} path="/select_date">
-            <motion.div initial="out" animate="in" exit="out" variants={variants}>
-              <DateSelect />
-            </motion.div>
+            <DateSelect createAppointment={createAppointment} user={user} variants={variants} />
           </Protected>
+
           <Footer />
+
         </Switch>
       </AnimatePresence>
+
     </ThemeProvider>
   )
 }

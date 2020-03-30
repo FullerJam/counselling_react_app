@@ -2,6 +2,7 @@ import React from "react"
 import theme from "../config/theme.js"
 import PropTypes from "prop-types"
 import styled from "styled-components"
+import { motion } from "framer-motion"
 
 
 
@@ -27,7 +28,9 @@ function Button(props) {
     return (
         <React.Fragment>
             <StyledButton onClick={onClick} m={m}>
-                {text}
+                <motion.div whileHover={{ scale: 1.03 }}>
+                    {text}
+                </motion.div>
             </StyledButton>
         </React.Fragment>
     );

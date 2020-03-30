@@ -1,7 +1,6 @@
-import PropTypes from "prop-types";
-import styled from "styled-components";
+import PropTypes from "prop-types"
+import styled from "styled-components"
 import theme from "../config/theme.js"
-
 
 const MenuTile = styled.div`
 background-color:${props => props.color};

@@ -1,4 +1,6 @@
 import React, { useState } from 'react'
+import { AnimatePresence, motion } from "framer-motion"
+import PropTypes from 'prop-types'
 import Calendar from 'react-calendar'
 import 'react-calendar/dist/Calendar.css'
 import styled from "styled-components"
@@ -31,27 +33,53 @@ const calendarStyle = {
 
 function DateSelect(props) {
 
-    const [date, setDate] = useState(new Date());
+    const [date, setDate, user, submitData] = useState(new Date())
+    const { variants, createAppointment} = props
 
     const onChange = date => {
-        setDate(date);
-        console.log(date);
-
+        setDate(date)
+        console.log(date)
     }
 
+    const handleSubmit = async appointmentDate => {
+        const appt = {
+            date: appointmentDate,
+            userId:user.uid,
+            userName: user.displayName || user.email,
+            bookedOn: new Date(),
+            status: "Upcoming"
+        }
+        try {
+            await submitData(appt)
+        } catch(error) {
+            console.log(error);
+        }
+    }
+
+
+
     return (
-        <React.Fragment>
+
+        <motion.div initial="out" animate="in" exit="out" variants={variants}>
             <StyledWrapper>
-            <StyledH3>
-                Choose your appointment date
+                <StyledH3>
+                    Choose your appointment date
             </StyledH3>
-            <p>You will be allocated a time slot so please make sure you have no <br/> commitments on the day of your booking</p>
+                <p>You will be allocated a time slot so please make sure you have no <br /> commitments on the day of your booking</p>
                 <div style={calendarStyle}> {/*wouldnt work directly on Calendar*/}
-                    <Calendar onChange={onChange} />
+                    <motion.div initial={{ scale: 0 }}
+                        animate={{ rotate: 360, scale: 1 }}
+                        transition={{
+                            type: "spring",
+                            stiffness: 260,
+                            damping: 90
+                        }}>
+                        <Calendar onChange={onChange} />
+                    </motion.div>
                 </div>
-                <Button text={"SELECT DATE"} />
+                <Button text={"SELECT DATE"} onSubmit={handleSubmit} />
             </StyledWrapper>
-        </React.Fragment>
+        </motion.div>
     )
 }
 

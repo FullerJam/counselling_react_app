@@ -2,7 +2,9 @@ import React from "react"
 import MenuTile from "../Components/MenuTile"
 import styled from "styled-components"
 import theme from "../config/theme.js"
-import { Link } from "react-router-dom";
+import PropTypes from 'prop-types'
+import { Link } from "react-router-dom"
+import { motion } from "framer-motion"
 
 //icons
 import calendarIcon from "../assets/calendar_icon.svg"
@@ -30,11 +32,17 @@ const ContentWrapper = styled.div`
     line-height: 1.6;
   }
 `
+const motionStyle = {
+    maxWidth:"480px",
+    margin:"0 auto"
+}
 
-function NavDash() {
 
+
+function NavDash(props) {
+    const { variants } = props
     return (
-        <div>
+        <motion.div initial="out" animate="in" exit="out" variants={variants}>
             <ContentWrapper>
                 <StyledGreeting>
                     Hi, Username
@@ -43,41 +51,50 @@ function NavDash() {
             </ContentWrapper>
 
             <Link to="/appointments" style={{ textDecoration: 'none' }}>
-                <MenuTile >
-                    <ImgContainer>
-                        <img src={calendarIcon} alt="calendar icon" />
-                    </ImgContainer>
-                    <h4>APPOINTMENTS</h4>
-                </MenuTile>
+                <motion.div whileHover={{ scale: 1.05 }} style={motionStyle}>
+                    <MenuTile>
+                        <ImgContainer>
+                            <img src={calendarIcon} alt="calendar icon" />
+                        </ImgContainer>
+                        <h4>APPOINTMENTS</h4>
+                    </MenuTile>
+                </motion.div>
             </Link>
 
             {/* <Link to="/advice" style={{ textDecoration: 'none' }}> */}
+            <motion.div whileHover={{ scale: 1.05 }} style={motionStyle}>
                 <MenuTile color={"#1E62A1"} >
                     <ImgContainer>
                         <img src={mentalHealthIcon} alt="mental health icon" />
                     </ImgContainer>
                     <h4>MENTAL HEALTH ADVICE</h4>
                 </MenuTile>
+            </motion.div>
             {/* </Link> */}
 
             {/* <Link to="/chat" style={{ textDecoration: 'none' }}> */}
+            <motion.div whileHover={{ scale: 1.05 }} style={motionStyle}>
                 <MenuTile color={"#FFC43D"} >
                     <ImgContainer>
                         <img src={urgentChatIcon} alt="chat icon" />
                     </ImgContainer>
                     <h4>URGENT CHAT</h4>
                 </MenuTile>
+            </motion.div>
             {/* </Link> */}
 
             {/* <Link to="/requestforletter" style={{ textDecoration: 'none' }}> */}
+            <motion.div whileHover={{ scale: 1.05 }} style={motionStyle}>
                 <MenuTile color={"#FD749B"} >
                     <ImgContainer>
                         <img src={requestIcon} alt="request letter icon" />
                     </ImgContainer>
                     <h4>REQUEST FOR LETTER</h4>
                 </MenuTile>
+            </motion.div>
             {/* </Link> */}
-        </div>
+        </motion.div>
+
     )
 }
 

@@ -2,8 +2,9 @@ import React, { useState } from 'react'
 import styled from 'styled-components'
 import person from "../assets/boy.png"
 import LoginForm from '../Components/LoginForm'
-import PropTypes from "prop-types";
-import { Link } from "react-router-dom";
+import PropTypes from "prop-types"
+import { motion } from "framer-motion"
+import { Link } from "react-router-dom"
 
 
 
@@ -21,7 +22,7 @@ const StyledImg = styled.div`
 
 const StyledH3 = styled.h3`
     color: ${({ theme }) => theme.colors.pink};
-  `;
+`
 
 const StyledLink = styled(Link)`
         text-align: center;
@@ -35,7 +36,7 @@ const StyledLink = styled(Link)`
     `
 
 function Login(props) {
-    const { signInEmailUser, signInWithProvider } = props;
+    const { signInEmailUser, signInWithProvider, variants } = props;
     const [error, setError] = useState();
 
     const handleSubmit = async data => {
@@ -55,7 +56,8 @@ function Login(props) {
 
 
     return (
-        <React.Fragment>
+
+        <motion.div initial="out" animate="in" exit="out" variants={variants}>
             <StyledWrapper>
                 <StyledImg>
                     <img src={person} alt="person" />
@@ -70,7 +72,8 @@ function Login(props) {
                     <h3>Not a member - Sign up now!</h3>
                 </StyledLink>
             </StyledWrapper>
-        </React.Fragment>
+        </motion.div>
+
     )
 }
 

@@ -2,6 +2,7 @@ import React from "react"
 import PropTypes from "prop-types"
 import styled from "styled-components"
 import { Link } from "react-router-dom"
+import { motion } from "framer-motion"
 
 import ApptTile from "../Components/ApptTile"
 import Button from "../Components/Button"
@@ -67,8 +68,10 @@ const StyledImageWrapper = styled.div`
 
 function Appointments(props) {
 
+    const { variants } = props
+
     return (
-        <React.Fragment>
+        <motion.div initial="out" animate="in" exit="out" variants={variants}>
             <StyledContentWrapper>
                 <p>Your Appointments</p>
             </StyledContentWrapper>
@@ -85,8 +88,7 @@ function Appointments(props) {
                 </Link>
             </StyledBackground>
             <ApptTile />
-
-        </React.Fragment>
+        </motion.div>
     );
 }
 

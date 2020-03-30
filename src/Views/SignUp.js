@@ -4,6 +4,8 @@ import LoginForm from '../Components/LoginForm'
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 
+import { motion } from "framer-motion"
+
 import signupimg from "../assets/signup.png"
 
 const StyledWrapper = styled.div`
@@ -35,7 +37,7 @@ const StyledLink = styled(Link)`
     `
 
 function SignUp(props) {
-    const { createEmailUser, signInWithProvider } = props;
+    const { createEmailUser, signInWithProvider, variants } = props;
     const [error, setError] = useState();
 
     const handleSubmit = async (data) => {
@@ -50,7 +52,7 @@ function SignUp(props) {
 
 
     return (
-        <React.Fragment>
+        <motion.div initial="out" animate="in" exit="out" variants={variants}>
             <StyledWrapper>
                 <StyledImg>
                     <img src={signupimg} alt="people_waving" />
@@ -65,7 +67,8 @@ function SignUp(props) {
                     <h3>Already a member? - Login</h3>
                 </StyledLink>
             </StyledWrapper>
-        </React.Fragment>
+        </motion.div>
+
     )
 }
 
