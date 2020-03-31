@@ -1,8 +1,10 @@
-import React from "react"
+import React, { useEffect, useState, useContext } from "react"
 import PropTypes from "prop-types"
 import styled from "styled-components"
 import { Link } from "react-router-dom"
 import { motion } from "framer-motion"
+
+import UserContext from "../config/user-context"
 
 import ApptTile from "../Components/ApptTile"
 import Button from "../Components/Button"
@@ -52,7 +54,7 @@ const StyledBackground = styled.div`
 
 const StyledImageWrapper = styled.div`
     position: absolute;
-    left:calc(50% - 38px);
+    left:calc(50% - 44px);
     top:428px;
     img{
         max-height:40px;
@@ -66,9 +68,25 @@ const StyledImageWrapper = styled.div`
 
 `
 
+
 function Appointments(props) {
 
-    const { variants } = props
+    const [appointments, setAppointnments] = useState([])
+    const { variants, readAppointments } = props
+
+    const user = useContext(UserContext)
+    useEffect(() => {
+        const getAllAppointments = async () => {
+            const allAppointments = await readAppointments(user)
+            let appts = []
+            allAppointments.forEach(appointment => appts.push({ ...appointment.data(), ...{ id: appointment.id } }))
+            setAppointnments(appts)
+            console.log(appts)
+        }
+
+        getAllAppointments()
+
+    }, [readAppointments, setAppointnments])
 
     return (
         <motion.div initial="out" animate="in" exit="out" variants={variants}>
@@ -87,7 +105,9 @@ function Appointments(props) {
                     <Button text={"BOOK AN APPOINTMENT"} m={"260px 0px 0px"} />
                 </Link>
             </StyledBackground>
-            <ApptTile />
+            {
+                appointments.map(appt => <ApptTile appointment={appt} />)
+            }
         </motion.div>
     );
 }

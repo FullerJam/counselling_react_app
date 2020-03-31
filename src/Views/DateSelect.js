@@ -33,8 +33,8 @@ const calendarStyle = {
 
 function DateSelect(props) {
 
-    const [date, setDate, user, submitData] = useState(new Date())
-    const { variants, createAppointment} = props
+    const [date, setDate] = useState(new Date())
+    const { variants, user, createAppointment, history } = props
 
     const onChange = date => {
         setDate(date)
@@ -50,7 +50,8 @@ function DateSelect(props) {
             status: "Upcoming"
         }
         try {
-            await submitData(appt)
+            await createAppointment(appt)
+            // history.push("/appt_confirmation")
         } catch(error) {
             console.log(error);
         }
@@ -77,7 +78,7 @@ function DateSelect(props) {
                         <Calendar onChange={onChange} />
                     </motion.div>
                 </div>
-                <Button text={"SELECT DATE"} onSubmit={handleSubmit} />
+                <Button text={"SELECT DATE"} onClick={handleSubmit(date)} />
             </StyledWrapper>
         </motion.div>
     )

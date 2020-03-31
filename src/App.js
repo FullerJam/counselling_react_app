@@ -3,18 +3,22 @@ import theme from "./config/theme.js"
 import { ThemeProvider } from "styled-components"
 import GlobalStyles from "./config/GlobalStyles"
 
+//context
+import UserContext from "./config/user-context"
+
 //firebase
 import firebase from "firebase/app";
 import firebaseConfig from "./config/firebase"
 import 'firebase/auth';
 import "firebase/firestore";
 import useAuth from "./services/firebase/useAuth"
-import useDateSelect from "./services/firebase/useDateSelect.js";
+import useDateSelect from "./services/firebase/useDateSelect";
 
 import { AnimatePresence } from "framer-motion"
 import { Switch, useLocation, Route, Redirect } from "react-router-dom"
 import { createBrowserHistory } from 'history'
 
+import ApptConfirmation from "./Views/ApptConfirmation"
 import NavDash from "./Views/NavDash"
 import Login from "./Views/Login"
 import Appointments from "./Views/Appointments"
@@ -42,7 +46,7 @@ function App() {
 
   const {
     createAppointment,
-    readAppointment
+    readAppointments
   } = useDateSelect(firebase.firestore)
 
 
@@ -62,37 +66,44 @@ function App() {
     <ThemeProvider theme={theme}>
       <GlobalStyles />
 
-      {location.pathname !== "/sign_up" && location.pathname !== "/login" && (
-        <Header history={history} user={user} signOut={signOut} />
-      )}
+      <UserContext.Provider value={user}>
+        {location.pathname !== "/sign_up" && location.pathname !== "/login" && (
+          <Header history={history} user={user} signOut={signOut} />
+        )}
 
-      <AnimatePresence>
-        <Switch>
+        <AnimatePresence>
+          <Switch>
 
-          <Protected authenticated={isAuthenticated} exact path="/">
-            <NavDash variants={variants} />
-          </Protected>
+            <Protected authenticated={isAuthenticated} exact path="/">
+              <NavDash variants={variants} />
+            </Protected>
 
-          <RedirectRoute authenticated={isAuthenticated} path="/login">
-            <Login signInEmailUser={signInEmailUser} location={location} variants={variants} />
-          </RedirectRoute>
+            <RedirectRoute authenticated={isAuthenticated} path="/login">
+              <Login signInEmailUser={signInEmailUser} location={location} variants={variants} />
+            </RedirectRoute>
 
-          <RedirectRoute authenticated={isAuthenticated} path="/sign_up" >
-            <SignUp createEmailUser={createEmailUser} variants={variants} />
-          </RedirectRoute>
+            <RedirectRoute authenticated={isAuthenticated} path="/sign_up" >
+              <SignUp createEmailUser={createEmailUser} variants={variants} />
+            </RedirectRoute>
 
-          <Protected authenticated={isAuthenticated} path="/appointments">
-            <Appointments variants={variants} />
-          </Protected>
+            <Protected authenticated={isAuthenticated} path="/appointments">
+              <Appointments variants={variants} readAppointments={readAppointments} />
+            </Protected>
 
-          <Protected authenticated={isAuthenticated} path="/select_date">
-            <DateSelect createAppointment={createAppointment} user={user} variants={variants} />
-          </Protected>
+            <Protected authenticated={isAuthenticated} path="/select_date">
+              <DateSelect createAppointment={createAppointment} history={history} user={user} variants={variants} />
+            </Protected>
 
-          <Footer />
+            <Protected authenticated={isAuthenticated} path="/appt_confirmation">
+              <ApptConfirmation createAppointment={createAppointment} history={history} user={user} variants={variants} />
+            </Protected>
 
-        </Switch>
-      </AnimatePresence>
+          </Switch>
+          {location.pathname !== "/sign_up" && location.pathname !== "/login" && (
+            <Footer />
+          )}
+        </AnimatePresence>
+      </UserContext.Provider>
 
     </ThemeProvider>
   )

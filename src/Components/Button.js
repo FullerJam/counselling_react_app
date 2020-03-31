@@ -5,11 +5,7 @@ import styled from "styled-components"
 import { motion } from "framer-motion"
 
 
-
-function Button(props) {
-    const { onClick, text, m } = props;
-
-    const StyledButton = styled.button`
+const StyledButton = styled.button`
         background-color:${({ theme }) => theme.colors.pink};
         color:white;
         border:0;
@@ -21,17 +17,24 @@ function Button(props) {
         &:hover {
         background-color: palevioletred;
         color: white;
+        cursor: pointer;
         }
     `
 
 
+
+function Button(props) {
+    const { onClick, text, m } = props;
+
+
+
     return (
         <React.Fragment>
+
             <StyledButton onClick={onClick} m={m}>
-                <motion.div whileHover={{ scale: 1.03 }}>
-                    {text}
-                </motion.div>
+                {text}
             </StyledButton>
+
         </React.Fragment>
     );
 }

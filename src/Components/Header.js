@@ -16,7 +16,7 @@ img {
   width: 45px;
   height: 45px;
   border-radius: 50%;
-  margin: 2%
+  margin: 2%;
 }
 `
 
@@ -34,12 +34,19 @@ const Back = styled.h6`
 `
 
 const StyledWrapper = styled.div`
-width: 100%;
-background-color: ${({ theme }) => theme.colors.grey};
-height: 100px;
-display: flex;
-justify-content: space-between;
-box-shadow: 0px 0.5px 1px rgba(0, 0, 0, 0.2);
+  width: 100%;
+  background-color: ${({ theme }) => theme.colors.grey};
+  height: 100px;
+  display: flex;
+  justify-content: space-between;
+  box-shadow: 0px 0.5px 1px rgba(0, 0, 0, 0.2);
+`
+
+const StyledResponsive = styled.div `
+  font-size:14px;
+  h6{
+    margin:10px 10px 0 10px;
+  }
 `
 
 
@@ -56,7 +63,9 @@ function Header(props) {
         <Back> <span onClick={handleClick} style={{ cursor: "pointer" }}><span style={{ fontSize: "18px" }}>‹&nbsp;</span>Back</span> </Back>
         <StyledUserAvatar>
 
-          <h6>{user.email} </h6> <span onClick={signOut} style={{margin:"0 0 0 10px", cursor:"pointer", textDecoration:"underline"}}> logout </span>
+          <StyledResponsive>
+            <h6>{user.email} </h6> <span onClick={signOut} style={{ margin: "0 0 0 10px", cursor: "pointer", textDecoration: "underline" }}> logout </span>
+          </StyledResponsive>
 
           <img src={avatarPlaceholder} alt="avatar" />
         </StyledUserAvatar>

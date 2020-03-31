@@ -4,6 +4,8 @@ import PropTypes from "prop-types"
 import styled from "styled-components"
 import { Link } from "react-router-dom"
 
+import moment from "moment";
+
 import apptIcon from "../assets/appt_icon.svg"
 
 const StyledApptWrapper = styled.div`
@@ -25,11 +27,20 @@ const StyledApptWrapper = styled.div`
 `
 const StyledDate = styled.p`
     color:grey!important;
-    
+    @media (max-width: 580px){
+        display:none;
+    }
+`
+const StyledDate2 = styled.p`
+    color:grey!important;
+    display:none;
+    @media only screen and (max-width: 579px){
+        display:block!important;
+    }
 `
 const StyledIconCircle = styled.div`
     height:50px;
-    width:50px;
+    min-width:50px;
     margin-right:15px;
     background-color:#A8A8A8;
     border-radius:50%;
@@ -44,6 +55,8 @@ const StyledApptInfo1 = styled.div`
 
 function ApptTile(props) {
 
+    const { appointment } = props
+
     return (
         <div>
             <StyledApptWrapper>
@@ -52,12 +65,15 @@ function ApptTile(props) {
                         <img src={apptIcon} alt="appointment icon" />
                     </StyledIconCircle>
                     <div>
-                        <h6>Completed Appointment</h6>
-                        <p>Successful</p>
+                        <h6>{appointment.status} Appointment</h6>
+                        <p>{appointment.date.toDate().toString()}</p>
+                    <StyledDate2>
+                        {moment(appointment.bookedOn.toDate()).fromNow()}
+                    </StyledDate2>
                     </div>
                 </StyledApptInfo1>
                 <StyledDate>
-                    june 01, 2019
+                    {moment(appointment.bookedOn.toDate()).fromNow()}
                 </StyledDate>
             </StyledApptWrapper>
         </div>

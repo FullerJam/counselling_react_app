@@ -19,7 +19,7 @@ function useAuth(fbAuth) {
 
    const signInEmailUser = (email, password) => fbAuth.signInWithEmailAndPassword(email, password)
 
-   const signOut = () => fbAuth.signOut();
+   const signOut = () => fbAuth.signOut()
 
    return {
       isAuthenticated,
@@ -30,6 +30,5 @@ function useAuth(fbAuth) {
    }
 
 }
-
 
 export default useAuth

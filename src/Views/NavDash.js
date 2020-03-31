@@ -27,6 +27,7 @@ const ContentWrapper = styled.div`
   max-width:344.56px;
   border-radius:5px;
   margin: 0 auto;
+  padding:0 10px;
   p{
     margin:10px 0px 40px;
     line-height: 1.6;
@@ -85,7 +86,7 @@ function NavDash(props) {
 
             {/* <Link to="/requestforletter" style={{ textDecoration: 'none' }}> */}
             <motion.div whileHover={{ scale: 1.05 }} style={motionStyle}>
-                <MenuTile color={"#FD749B"} >
+                <MenuTile color={"#FD749B"} style={{marginBottom:"50px"}}>
                     <ImgContainer>
                         <img src={requestIcon} alt="request letter icon" />
                     </ImgContainer>

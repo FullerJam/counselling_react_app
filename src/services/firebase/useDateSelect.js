@@ -1,14 +1,12 @@
-import { useState, useEffect } from "react";
-import { useHistory } from "react-router-dom";
-
 function useDateSelect(fStore) {
-  const ref = fStore.collection('appointments');
+  const ref = fStore().collection('appointments');
 
   const createAppointment  = appointment => ref.add(appointment);
 
-  const readAppointment = () => ref.get();
+  // const readAppointments = () => ref.get();
+  const readAppointments = user => ref.where("userId", "==", user.uid).get();
 
-  return {createAppointment, readAppointment}
+  return {createAppointment, readAppointments}
 
 }
 export default useDateSelect;
