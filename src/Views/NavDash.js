@@ -1,10 +1,11 @@
-import React from "react"
+import React, { useContext } from "react"
 import MenuTile from "../Components/MenuTile"
 import styled from "styled-components"
 import theme from "../config/theme.js"
 import PropTypes from 'prop-types'
 import { Link } from "react-router-dom"
 import { motion } from "framer-motion"
+import UserContext from "../config/user-context"
 
 //icons
 import calendarIcon from "../assets/calendar_icon.svg"
@@ -78,14 +79,14 @@ const TileContentWrapper2 = styled.div`
 // }
 
 
-
 function NavDash(props) {
+    const user = useContext(UserContext)
     const { variants } = props
     return (
         <motion.div initial="out" animate="in" exit="out" variants={variants}>
             <ContentWrapper>
                 <StyledGreeting>
-                    Hi, Username
+                    Hi, {user.username || user.email}
                 </StyledGreeting>
                 <p>Welcome back! <br /> Choose from one of the options below</p>
 

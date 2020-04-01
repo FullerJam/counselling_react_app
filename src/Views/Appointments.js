@@ -19,9 +19,9 @@ const StyledInfoCircle = styled.div`
     position:absolute;
     left:calc(50% - 59px);
     top:250px;
-    width: 118px;
     text-align:center;
-    height: 118px;
+    width: 125px;
+    height: 125px;
     border-radius: 50%;
     display:flex;
     justify-content:center;
@@ -81,7 +81,7 @@ function Appointments(props) {
     const [appointments, setAppointnments] = useState([])
     const { variants, readAppointments } = props
 
-    const user = useContext(UserContext)
+    const user = useContext(UserContext) // wouldnt work with props undefined
     useEffect(() => {
         const getAllAppointments = async () => {
             const allAppointments = await readAppointments(user)

@@ -3,7 +3,7 @@ import theme from "../config/theme.js"
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import chatIcon from "../assets/chat_icon.svg";
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 
 const StyledWrapper = styled.div`
@@ -30,7 +30,9 @@ function Footer(props) {
         <div>
             <StyledWrapper>
                 <StyledIcon>
-                    <img src={chatIcon} alt=""/>
+                    <Link to="/chat">
+                        <img src={chatIcon} alt="" />
+                    </Link>
                 </StyledIcon>
             </StyledWrapper>
         </div>

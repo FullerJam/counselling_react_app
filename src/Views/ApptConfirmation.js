@@ -3,40 +3,58 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { motion } from "framer-motion"
 import Button from "../Components/Button"
+import chatImage from "../assets/chat_.svg"
 
-const StyledWrapper = styled.div`
-    max-width:1000px;
-    margin:10vh auto;
-    text-align:center;
+const ContentWrapper = styled.div`
+  width:100%;
+  padding:2%;
+  margin:10vh auto;
+  max-width:1000px;
+  display:flex;
+  justify-content:center;
+  flex-direction:column;
+  align-items:center;
+  text-align:center;
+  p{
+      margin-top:40px
+  }
+  @media(max-width:1020px){
+    max-width:560px;
+  }
+  @media(max-width:580px){
+    max-width:300px;
+  }
 `
 
 const StyledImg = styled.div`
-    width:94px;
-    height:94px;
-    margin:0 auto;
+    img{
+        
+    }
 `
 
 const StyledH3 = styled.h3`
     color: ${({ theme }) => theme.colors.pink};
+    margin-bottom:40px;
 `
+
+
 
 function ApptConfirmation(props) {
 
-    const {variants} = props
+    const { variants } = props
     return (
         <React.Fragment>
             <motion.div initial="out" animate="in" exit="out" variants={variants}>
-            <StyledWrapper>
-                <StyledImg>
-                    <img src="" alt="person" />
-                </StyledImg>
-                <StyledH3>Use your social to sign in</StyledH3>
-                
-                <Button text={"text"}>
-                    
-                </Button>
-            </StyledWrapper>
-        </motion.div>
+                <ContentWrapper>
+                    <StyledImg>
+                        <img src={chatImage} alt="person" />
+                    </StyledImg>
+                    <StyledH3>You’ve confirmed your booking! <br/> Do you need to speak to anyone Urgently??</StyledH3>
+
+                    <Button text={"CHAT"}/>
+                    <p>Support is available for those struggling with emotional well-being or mental health whatever time of day.  </p>
+                </ContentWrapper>
+            </motion.div>
         </React.Fragment>
     )
 }
