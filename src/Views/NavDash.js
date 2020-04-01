@@ -24,19 +24,58 @@ const StyledGreeting = styled.h4`
   margin:40px 0px 8px;
 `
 const ContentWrapper = styled.div`
-  max-width:344.56px;
-  border-radius:5px;
-  margin: 0 auto;
-  padding:0 10px;
+  width:100%;
+  padding:2%;
+  margin:0 auto;
+  max-width:1000px;
   p{
     margin:10px 0px 40px;
     line-height: 1.6;
   }
+  @media(max-width:1020px){
+    max-width:560px;
+  }
+  @media(max-width:580px){
+    max-width:300px;
+  }
 `
-const motionStyle = {
-    maxWidth:"480px",
-    margin:"0 auto"
-}
+
+const TileContentWrapper = styled.div`
+    width:50%;
+    height:100%;
+    display:inline-block;
+    
+    img, h4{
+        margin-left:30px;
+    }
+
+    @media(max-width:580px){
+        width:100%;
+        display:flex;
+        justify-content:center;
+        align-items:center;
+        flex-direction:column;
+        margin:0;
+        img, h4{
+            margin:0;
+        }
+    }
+    
+`
+const TileContentWrapper2 = styled.div`
+
+    width:50%;
+    height:100%;
+    display:inline-block;
+    color:white;
+    @media(max-width:580px){
+        display:none;
+    }
+`
+
+// const motionStyle = {
+//     maxWidth: "480px",
+// }
 
 
 
@@ -49,51 +88,115 @@ function NavDash(props) {
                     Hi, Username
                 </StyledGreeting>
                 <p>Welcome back! <br /> Choose from one of the options below</p>
-            </ContentWrapper>
 
-            <Link to="/appointments" style={{ textDecoration: 'none' }}>
-                <motion.div whileHover={{ scale: 1.05 }} style={motionStyle}>
-                    <MenuTile>
-                        <ImgContainer>
-                            <img src={calendarIcon} alt="calendar icon" />
-                        </ImgContainer>
-                        <h4>APPOINTMENTS</h4>
+
+                <Link to="/appointments" style={{ textDecoration: 'none' }}>
+                    <motion.div whileHover={{ scale: 1.05 }} >
+                        <MenuTile>
+                            <TileContentWrapper>
+                                <ImgContainer>
+                                    <img src={calendarIcon} alt="calendar icon" />
+                                </ImgContainer>
+                                <h4>APPOINTMENTS</h4>
+                            </TileContentWrapper>
+                            <TileContentWrapper2>
+                                <ul>
+                                    <li>
+                                        Lorem, ipsum dolor sit amet consectetur adipisicing elit.
+                                    </li>
+                                    <li>
+                                        Lorem, ipsum dolor sit amet consectetur adipisicing elit.
+                                    </li>
+                                    <li>
+                                        Lorem, ipsum dolor sit amet consectetur adipisicing elit.
+                                    </li>
+                                </ul>
+                            </TileContentWrapper2>
+                        </MenuTile>
+                    </motion.div>
+                </Link>
+
+                {/* <Link to="/advice" style={{ textDecoration: 'none' }}> */}
+                <motion.div whileHover={{ scale: 1.05 }} >
+                    <MenuTile color={"#1E62A1"} >
+                        <TileContentWrapper>
+
+                            <ImgContainer>
+                                <img src={mentalHealthIcon} alt="mental health icon" />
+                            </ImgContainer>
+                            <h4>MENTAL HEALTH ADVICE</h4>
+                        </TileContentWrapper>
+                        <TileContentWrapper2>
+                            <ul>
+                                <li>
+                                    Lorem, ipsum dolor sit amet consectetur adipisicing elit.
+                                    </li>
+                                <li>
+                                    Lorem, ipsum dolor sit amet consectetur adipisicing elit.
+                                    </li>
+                                <li>
+                                    Lorem, ipsum dolor sit amet consectetur adipisicing elit.
+                                    </li>
+                            </ul>
+                        </TileContentWrapper2>
                     </MenuTile>
                 </motion.div>
-            </Link>
+                {/* </Link> */}
 
-            {/* <Link to="/advice" style={{ textDecoration: 'none' }}> */}
-            <motion.div whileHover={{ scale: 1.05 }} style={motionStyle}>
-                <MenuTile color={"#1E62A1"} >
-                    <ImgContainer>
-                        <img src={mentalHealthIcon} alt="mental health icon" />
-                    </ImgContainer>
-                    <h4>MENTAL HEALTH ADVICE</h4>
-                </MenuTile>
-            </motion.div>
-            {/* </Link> */}
+                {/* <Link to="/chat" style={{ textDecoration: 'none' }}> */}
+                <motion.div whileHover={{ scale: 1.05 }} >
+                    <MenuTile color={"#FFC43D"} >
+                        <TileContentWrapper>
 
-            {/* <Link to="/chat" style={{ textDecoration: 'none' }}> */}
-            <motion.div whileHover={{ scale: 1.05 }} style={motionStyle}>
-                <MenuTile color={"#FFC43D"} >
-                    <ImgContainer>
-                        <img src={urgentChatIcon} alt="chat icon" />
-                    </ImgContainer>
-                    <h4>URGENT CHAT</h4>
-                </MenuTile>
-            </motion.div>
-            {/* </Link> */}
+                            <ImgContainer>
+                                <img src={urgentChatIcon} alt="chat icon" />
+                            </ImgContainer>
+                            <h4>URGENT CHAT</h4>
+                        </TileContentWrapper>
+                        <TileContentWrapper2>
+                            <ul>
+                                <li>
+                                    Lorem, ipsum dolor sit amet consectetur adipisicing elit.
+                                    </li>
+                                <li>
+                                    Lorem, ipsum dolor sit amet consectetur adipisicing elit.
+                                    </li>
+                                <li>
+                                    Lorem, ipsum dolor sit amet consectetur adipisicing elit.
+                                    </li>
+                            </ul>
+                        </TileContentWrapper2>
+                    </MenuTile>
+                </motion.div>
+                {/* </Link> */}
 
-            {/* <Link to="/requestforletter" style={{ textDecoration: 'none' }}> */}
-            <motion.div whileHover={{ scale: 1.05 }} style={motionStyle}>
-                <MenuTile color={"#FD749B"} style={{marginBottom:"50px"}}>
-                    <ImgContainer>
-                        <img src={requestIcon} alt="request letter icon" />
-                    </ImgContainer>
-                    <h4>REQUEST FOR LETTER</h4>
-                </MenuTile>
-            </motion.div>
-            {/* </Link> */}
+                {/* <Link to="/requestforletter" style={{ textDecoration: 'none' }}> */}
+                <motion.div whileHover={{ scale: 1.05 }} >
+                    <MenuTile color={"#FD749B"} style={{ marginBottom: "50px" }}>
+                        <TileContentWrapper>
+
+                            <ImgContainer>
+                                <img src={requestIcon} alt="request letter icon" />
+                            </ImgContainer>
+                            <h4>REQUEST FOR LETTER</h4>
+                        </TileContentWrapper>
+                        <TileContentWrapper2>
+                            <ul>
+                                <li>
+                                    Lorem, ipsum dolor sit amet consectetur adipisicing elit.
+                                    </li>
+                                <li>
+                                    Lorem, ipsum dolor sit amet consectetur adipisicing elit.
+                                    </li>
+                                <li>
+                                    Lorem, ipsum dolor sit amet consectetur adipisicing elit.
+                                    </li>
+                            </ul>
+                        </TileContentWrapper2>
+                    </MenuTile>
+                </motion.div>
+                {/* </Link> */}
+            </ContentWrapper>
         </motion.div>
 
     )

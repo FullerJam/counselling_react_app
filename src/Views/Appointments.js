@@ -88,6 +88,7 @@ function Appointments(props) {
             let appts = []
             allAppointments.forEach(appointment => appts.push({ ...appointment.data(), ...{ id: appointment.id } }))
             setAppointnments(appts)
+            console.log(appts)
         }
 
         getAllAppointments()

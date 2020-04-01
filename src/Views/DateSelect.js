@@ -49,6 +49,7 @@ function DateSelect(props) {
         const appt = {
             bookedOn: new Date(),
             date: formattedDate[0],
+            timeStamp:appointmentDate,
             userId: user.uid,
             userName: user.displayName || user.email
         }
@@ -79,7 +80,7 @@ function DateSelect(props) {
                             stiffness: 260,
                             damping: 20
                         }}>
-                        <Calendar minDate={moment().add(1, 'days').toDate()} onChange={onChange} />
+                        <Calendar  minDate={moment().add(1, 'days').toDate()} onChange={onChange} />
                     </motion.div>
                 </div>
 
