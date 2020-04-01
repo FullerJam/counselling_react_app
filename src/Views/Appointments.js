@@ -1,8 +1,11 @@
 import React, { useEffect, useState, useContext } from "react"
+import useAuth from "../services/firebase/useAuth"
+
 import PropTypes from "prop-types"
 import styled from "styled-components"
 import { Link } from "react-router-dom"
 import { motion } from "framer-motion"
+
 
 import UserContext from "../config/user-context"
 
@@ -85,12 +88,11 @@ function Appointments(props) {
             let appts = []
             allAppointments.forEach(appointment => appts.push({ ...appointment.data(), ...{ id: appointment.id } }))
             setAppointnments(appts)
-            console.log(appts)
         }
 
         getAllAppointments()
 
-    }, [readAppointments, setAppointnments])
+    }, [useAuth, readAppointments, setAppointnments])
 
     return (
         <motion.div initial="out" animate="in" exit="out" variants={variants}>

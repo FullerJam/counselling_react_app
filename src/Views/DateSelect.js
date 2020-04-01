@@ -39,19 +39,9 @@ function DateSelect(props) {
     const [date, setDate] = useState(new Date())
     const { variants, user, createAppointment, history } = props
 
-    // const dateSelectSchema = yup.object().shape({
-    //     bookedOn: yup.date().required(""),
-    //     date: yup.date()
-    //     .min(yup.ref("bookedOn"), "It is not possible to book the current date / past date, please book a future appointment")
-    //     .required("Please select a date from the calender above"),
-    //     userId: yup.string().required("Something when wrong, you dont have an asigned user ID"),
-    //     userName: yup.string().required("Something when wrong, you dont have an username or email")
-    // })
-    console.log("current day" + new Date())
-    console.log("tomorrow" + moment().add(1, 'days').toString())
+
     const onChange = date => {
         setDate(date)
-        console.log(date)
     }
 
     const handleSubmit = async appointmentDate => {
@@ -59,13 +49,14 @@ function DateSelect(props) {
         const appt = {
             bookedOn: new Date(),
             date: formattedDate[0],
-            userId:user.uid,
+            userId: user.uid,
             userName: user.displayName || user.email
         }
         try {
             await createAppointment(appt)
-            history.push("/appt_confirmation")
-        } catch(error) {
+            window.location = "/appt_confirmation"
+            // history.push("/appt_confirmation") //doesnt work
+        } catch (error) {
             console.log(error);
         }
     }
@@ -82,16 +73,18 @@ function DateSelect(props) {
                 <p>You will be allocated a time slot so please make sure you have no <br /> commitments on the day of your booking</p>
                 <div style={calendarStyle}> {/*wouldnt work directly on Calendar*/}
                     <motion.div initial={{ scale: 0.5 }}
-                        animate={{ rotate: 360, scale: 1 }}
+                        animate={{ scale: 1 }}
                         transition={{
                             type: "spring",
                             stiffness: 260,
-                            damping: 90
+                            damping: 20
                         }}>
-                        <Calendar minDate={moment().add(1, 'days').format()}onChange={onChange} />
+                        <Calendar minDate={moment().add(1, 'days').toDate()} onChange={onChange} />
                     </motion.div>
                 </div>
+
                 <Button text={"SELECT DATE"} onClick={e => handleSubmit(date)} /> {/**handleSubmit() <- like this will run immediately in react */}
+
             </StyledWrapper>
         </motion.div>
     )
@@ -103,5 +96,5 @@ DateSelect.propTypes = {
 
 export default DateSelect
 
-//rcfp
+//rcfp 
 

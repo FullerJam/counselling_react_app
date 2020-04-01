@@ -19,6 +19,7 @@ import { Switch, useLocation, Route, Redirect } from "react-router-dom"
 import { createBrowserHistory } from 'history'
 
 import ApptConfirmation from "./Views/ApptConfirmation"
+import Chat from "./Views/Chat"
 import NavDash from "./Views/NavDash"
 import Login from "./Views/Login"
 import Appointments from "./Views/Appointments"
@@ -26,10 +27,56 @@ import DateSelect from "./Views/DateSelect"
 import SignUp from "./Views/SignUp.js"
 import Header from "./Components/Header"
 import Footer from "./Components/Footer"
-import Protected from "./Components/Protected"
-import RedirectRoute from "./Components/Redirect"
+import Loader from "./Components/Loader";
+// import Protected from "./Components/Protected"
+// import RedirectRoute from "./Components/Redirect"
 
 const history = createBrowserHistory(); //back button
+
+let initAttemptedRoute = "/";
+
+function Protected({ authenticated, children, ...rest }) {
+  initAttemptedRoute = useLocation().pathname;
+
+  return (
+    <Route
+      {...rest}
+      render={({ location }) =>
+        authenticated ? (
+          children
+        ) : (
+            <Redirect
+              to={{
+                pathname: "/login",
+                state: { from: location }
+              }}
+            />
+          )
+      }
+    />
+  );
+}
+
+function RedirectRoute({ authenticated, children, ...rest }) {
+    
+  return (
+      <Route
+          {...rest}
+          render={({ location }) =>
+              !authenticated ? (
+                  children
+              ) : (
+                      <Redirect
+                          to={{
+                              pathname: initAttemptedRoute,
+                              state: { from: location }
+                          }}
+                      />
+                  )
+          }
+      />
+  );
+}
 
 function App() {
 
@@ -41,7 +88,8 @@ function App() {
     createEmailUser,
     signInEmailUser,
     user,
-    signOut
+    signOut,
+    loading
   } = useAuth(firebase.auth());
 
   const {
@@ -61,6 +109,9 @@ function App() {
     }
   }
 
+  if (loading) {
+    return <Loader />;
+  }
 
   return (
     <ThemeProvider theme={theme}>
@@ -95,7 +146,11 @@ function App() {
             </Protected>
 
             <Protected authenticated={isAuthenticated} path="/appt_confirmation">
-              <ApptConfirmation createAppointment={createAppointment} history={history} user={user} variants={variants} />
+              <ApptConfirmation history={history} user={user} variants={variants} />
+            </Protected>
+
+            <Protected authenticated={isAuthenticated} path="/chat">
+              <Chat history={history} user={user} variants={variants} />
             </Protected>
 
           </Switch>
