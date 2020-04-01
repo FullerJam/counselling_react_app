@@ -7,6 +7,7 @@ const theme = {
     grey: "#F3F3F3",
     turq: "#1B9AAA",
     blue: "#1E62A1",
+    red: "#ff0000",
     yellow: "#FFC43D",
     darkShade: {
       100: "rgba(31, 32, 65, 100)",

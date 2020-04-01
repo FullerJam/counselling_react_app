@@ -3,28 +3,14 @@ import theme from "../config/theme.js"
 import PropTypes from "prop-types"
 import styled from "styled-components"
 import { Link } from "react-router-dom"
+// import { isBefore } from 'date-fns'
+
 
 import moment from "moment";
 
 import apptIcon from "../assets/appt_icon.svg"
 
-const StyledApptWrapper = styled.div`
-    display:flex;
-    justify-content:space-between;
-    max-width:1000px;
-    padding:20px;
-    margin:0 auto;
-    h6{
-        color:grey;
-        margin:5px 0;
-        padding:0px;
-    }
-    p{
-        font-size:13px;
-        margin-top:4px;
-        color:${({ theme }) => theme.colors.green}
-    }
-`
+
 const StyledDate = styled.p`
     color:grey!important;
     @media (max-width: 580px){
@@ -53,23 +39,43 @@ const StyledApptInfo1 = styled.div`
     display:flex;
 `
 
+const StyledApptWrapper = styled.div`
+            display:flex;
+            justify-content:space-between;
+            max-width:1000px;
+            padding:20px;
+            margin:0 auto;
+            h6{
+                color:grey;
+                margin:5px 0;
+                padding:0px;
+            }
+            p{
+                font-size:13px;
+                margin-top:4px;
+                color:${({ theme, appointment }) => moment(appointment.date).isBefore(currentDate, 'day') ? theme.colors.red : theme.colors.green}
+            }
+    `
+//Date check variables date-fns library
+const currentDate = new Date()
+
 function ApptTile(props) {
 
     const { appointment } = props
 
     return (
         <div>
-            <StyledApptWrapper>
+            <StyledApptWrapper appointment={appointment}>
                 <StyledApptInfo1>
                     <StyledIconCircle>
                         <img src={apptIcon} alt="appointment icon" />
                     </StyledIconCircle>
                     <div>
-                        <h6>{appointment.status} Appointment</h6>
-                        <p>{appointment.date.toDate().toString()}</p>
-                    <StyledDate2>
-                        {moment(appointment.bookedOn.toDate()).fromNow()}
-                    </StyledDate2>
+                        <h6>{moment(appointment.date).isBefore(currentDate, 'day') ? "Completed" : "Upcoming"} Appointment</h6>
+                        <p>{appointment.date}</p>
+                        <StyledDate2>
+                            {moment(appointment.bookedOn.toDate()).fromNow()}
+                        </StyledDate2>
                     </div>
                 </StyledApptInfo1>
                 <StyledDate>

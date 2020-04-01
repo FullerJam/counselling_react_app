@@ -5,6 +5,8 @@ import Calendar from 'react-calendar'
 import 'react-calendar/dist/Calendar.css'
 import styled from "styled-components"
 import Button from "../Components/Button"
+import { useForm } from "react-hook-form";
+import * as yup from "yup";
 
 
 import theme from "../config/theme.js"
@@ -36,22 +38,27 @@ function DateSelect(props) {
     const [date, setDate] = useState(new Date())
     const { variants, user, createAppointment, history } = props
 
+    const dateSelectSchema = yup.object().shape({
+        
+    })
+
+
     const onChange = date => {
         setDate(date)
         console.log(date)
     }
 
     const handleSubmit = async appointmentDate => {
+        const formattedDate = appointmentDate.toISOString().split("T")
         const appt = {
-            date: appointmentDate,
+            date: formattedDate[0],
             userId:user.uid,
             userName: user.displayName || user.email,
-            bookedOn: new Date(),
-            status: "Upcoming"
+            bookedOn: new Date()
         }
         try {
             await createAppointment(appt)
-            // history.push("/appt_confirmation")
+            history.push("/appt_confirmation")
         } catch(error) {
             console.log(error);
         }
@@ -68,7 +75,7 @@ function DateSelect(props) {
             </StyledH3>
                 <p>You will be allocated a time slot so please make sure you have no <br /> commitments on the day of your booking</p>
                 <div style={calendarStyle}> {/*wouldnt work directly on Calendar*/}
-                    <motion.div initial={{ scale: 0 }}
+                    <motion.div initial={{ scale: 0.5 }}
                         animate={{ rotate: 360, scale: 1 }}
                         transition={{
                             type: "spring",
@@ -78,7 +85,7 @@ function DateSelect(props) {
                         <Calendar onChange={onChange} />
                     </motion.div>
                 </div>
-                <Button text={"SELECT DATE"} onClick={handleSubmit(date)} />
+                <Button text={"SELECT DATE"} onClick={e => handleSubmit(date)} /> {/**handleSubmit() <- like this will run immediately in react */}
             </StyledWrapper>
         </motion.div>
     )

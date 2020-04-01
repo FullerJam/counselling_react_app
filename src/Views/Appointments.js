@@ -65,7 +65,11 @@ const StyledImageWrapper = styled.div`
         margin:0;
         color:white;
     }
+`
 
+const StyledAppointmentsWrap = styled.div`
+    max-width:1000px;
+    margin:0 auto 25px;
 `
 
 
@@ -105,9 +109,11 @@ function Appointments(props) {
                     <Button text={"BOOK AN APPOINTMENT"} m={"260px 0px 0px"} />
                 </Link>
             </StyledBackground>
-            {
-                appointments.map(appt => <ApptTile appointment={appt} />)
-            }
+            <StyledAppointmentsWrap>
+                {
+                    appointments.map(appt => <ApptTile appointment={appt} />)
+                }
+            </StyledAppointmentsWrap>
         </motion.div>
     );
 }
