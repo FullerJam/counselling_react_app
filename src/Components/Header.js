@@ -3,6 +3,8 @@ import theme from "../config/theme.js"
 import PropTypes from "prop-types"
 import styled from "styled-components"
 import avatarPlaceholder from "../assets/avatar_placeholder.png"
+import { useLocation } from "react-router-dom"
+import { Link } from "react-router-dom"
 
 const StyledUserAvatar = styled.div`
 color: ${({ theme }) => theme.colors.darkShade[50]};
@@ -42,25 +44,36 @@ const StyledWrapper = styled.div`
   box-shadow: 0px 0.5px 1px rgba(0, 0, 0, 0.2);
 `
 
-const StyledResponsive = styled.div `
+const StyledResponsive = styled.div`
   font-size:14px;
   h6{
     margin:10px 10px 0 10px;
   }
 `
 
-
 function Header(props) {
+  const location = useLocation();
 
   const { history, user, signOut } = props
 
   const handleClick = () => {
     history.goBack();
   }
+
+  const handleHomeClick = () => {
+    window.location = "/"
+  }
   return (
     <React.Fragment>
       <StyledWrapper>
-        <Back> <span onClick={handleClick} style={{ cursor: "pointer" }}><span style={{ fontSize: "18px" }}>‹&nbsp;</span>Back</span> </Back>
+        {location.pathname !== "/chat" && (
+          <Back> <span onClick={handleClick} style={{ cursor: "pointer" }}><span style={{ fontSize: "18px" }}>‹&nbsp;</span>Back</span> </Back>
+        )}
+        {location.pathname == "/chat" && (
+
+          <Back> <span onClick={handleHomeClick} style={{ cursor: "pointer" }}><span style={{ fontSize: "18px" }}>‹&nbsp;</span>Home</span> </Back>
+
+        )}
         <StyledUserAvatar>
 
           <StyledResponsive>
