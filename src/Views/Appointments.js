@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from "react"
+import React, { useEffect, useState, useRef, useContext, useLayoutEffect } from "react"
 import useAuth from "../services/firebase/useAuth"
 
 import PropTypes from "prop-types"
@@ -6,12 +6,12 @@ import styled from "styled-components"
 import { Link } from "react-router-dom"
 import { motion } from "framer-motion"
 
-
-import UserContext from "../config/user-context"
-
 import ApptTile from "../Components/ApptTile"
 import Button from "../Components/Button"
 import tick from "../assets/tick.svg"
+
+//context
+import UserContext from "../config/user-context"
 
 
 const StyledInfoCircle = styled.div`
@@ -80,17 +80,20 @@ function Appointments(props) {
 
     const [appointments, setAppointnments] = useState([])
     const { variants, readAppointments } = props
-
-    const user = useContext(UserContext) // wouldnt work with props undefined
-    useEffect(() => {
+    const user = useContext(UserContext) // wouldnt work with props undefined // breaks on page refresh, fixed with useLayoutEffect & if statement
+    const userLocal = JSON.parse(localStorage.getItem('user')) // used local storage instead of useContext, and added else statement to useAuth to fix. Worked but if user logged out and then logged back in & redir to appts threw error
+    const initialRender = useRef(true);
+    useLayoutEffect(() => {
+        if(initialRender.current){ //prevents page from crashing
+            initialRender.current = false
+            return
+        }
         const getAllAppointments = async () => {
             const allAppointments = await readAppointments(user)
             let appts = []
             allAppointments.forEach(appointment => appts.push({ ...appointment.data(), ...{ id: appointment.id } }))
             setAppointnments(appts)
-            console.log(appts)
         }
-
         getAllAppointments()
 
     }, [useAuth, readAppointments, setAppointnments])

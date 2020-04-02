@@ -10,10 +10,13 @@ function useAuth(fbAuth) {
       if (fbUser) {
          setIsAuthenticated(true)
          setUser(fbUser)
+         // localStorage.setItem('user', JSON.stringify(fbUser)); //previous fix only semi worked
          return
+      } else {
+
+         setIsAuthenticated(false)
+         // localStorage.removeItem('user'); 
       }
-      setIsAuthenticated(false)
-      console.log(isAuthenticated)
    })
 
    const createEmailUser = (email, password) => fbAuth.

@@ -72,6 +72,9 @@ const TileContentWrapper2 = styled.div`
     @media(max-width:580px){
         display:none;
     }
+    ul{
+        padding-top:20px;
+    }
 `
 
 // const motionStyle = {

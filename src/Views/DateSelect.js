@@ -56,7 +56,6 @@ function DateSelect(props) {
         try {
             await createAppointment(appt)
             window.location = "/appt_confirmation"
-            history.push("/") // avoids error, temporary fix
         } catch (error) {
             console.log(error);
         }
