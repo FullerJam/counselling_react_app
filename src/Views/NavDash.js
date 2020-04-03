@@ -147,7 +147,7 @@ function NavDash(props) {
                 </motion.div>
                 {/* </Link> */}
 
-                {/* <Link to="/chat" style={{ textDecoration: 'none' }}> */}
+                <Link to="/chat" style={{ textDecoration: 'none' }}>
                 <motion.div whileHover={{ scale: 1.05 }} >
                     <MenuTile color={"#FFC43D"} >
                         <TileContentWrapper>
@@ -172,7 +172,7 @@ function NavDash(props) {
                         </TileContentWrapper2>
                     </MenuTile>
                 </motion.div>
-                {/* </Link> */}
+                </Link>
 
                 {/* <Link to="/requestforletter" style={{ textDecoration: 'none' }}> */}
                 <motion.div whileHover={{ scale: 1.05 }} >

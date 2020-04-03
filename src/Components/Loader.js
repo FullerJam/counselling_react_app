@@ -18,8 +18,8 @@ export default class App extends React.Component {
                 <Loader
                 type="TailSpin"
                 color="#FD749B"
-                height={100}
-                width={100}
+                height={50}
+                width={50}
                 timeout={3000} //3 secs
 
             />
