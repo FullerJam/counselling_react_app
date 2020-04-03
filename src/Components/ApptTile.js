@@ -66,7 +66,7 @@ function ApptTile(props) {
             <StyledApptWrapper appointment={appointment}>
                 <StyledApptInfo1>
                     <StyledIconCircle>
-                        <img src={apptIcon} alt="appointment icon" />
+                        <img src={apptIcon} alt="appt icon" />
                     </StyledIconCircle>
                     <div>
                         <h6>{moment(appointment.date).isBefore(currentDate, 'day') ? "Completed" : "Upcoming"} Appointment</h6>

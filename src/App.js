@@ -87,10 +87,11 @@ function App() {
     isAuthenticated,
     createEmailUser,
     signInEmailUser,
+    signInWithProvider,
     user,
     signOut,
     loading
-  } = useAuth(firebase.auth());
+  } = useAuth(firebase.auth);
 
   const {
     createAppointment,
@@ -130,11 +131,11 @@ function App() {
             </Protected>
 
             <RedirectRoute authenticated={isAuthenticated} path="/login">
-              <Login signInEmailUser={signInEmailUser} location={location} variants={variants} />
+              <Login signInWithProvider={signInWithProvider} signInEmailUser={signInEmailUser} location={location} variants={variants} />
             </RedirectRoute>
 
             <RedirectRoute authenticated={isAuthenticated} path="/sign_up" >
-              <SignUp createEmailUser={createEmailUser} variants={variants} />
+              <SignUp signInWithProvider={signInWithProvider} createEmailUser={createEmailUser} variants={variants} />
             </RedirectRoute>
 
             <Protected authenticated={isAuthenticated} path="/appointments">

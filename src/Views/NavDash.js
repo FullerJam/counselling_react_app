@@ -89,7 +89,7 @@ function NavDash(props) {
         <motion.div initial="out" animate="in" exit="out" variants={variants}>
             <ContentWrapper>
                 <StyledGreeting>
-                    Hi, {user.username || user.email}
+                    Hi, {user.name || user.email}
                 </StyledGreeting>
                 <p>Welcome back! <br /> Choose from one of the options below</p>
 

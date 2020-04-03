@@ -67,6 +67,7 @@ function Login(props) {
                     onSubmit={handleSubmit}
                     serverError={error}
                     buttonText={"LOGIN"}
+                    onSocialLogin={handleSocialLogin}
                 />
                 <StyledLink to="/sign_up">
                     <h3>Not a member - Sign up now!</h3>

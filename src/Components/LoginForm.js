@@ -85,7 +85,6 @@ function LoginForm(props) {
 
 
   const handleClick = e => {
-    console.log("running")
     e.preventDefault();
     setDisplayEmail(!displayEmail)
   }

@@ -36,7 +36,7 @@ const calendarStyle = {
 
 function DateSelect(props) {
 
-    const [date, setDate] = useState(new Date())
+    const [date, setDate] = useState(moment().add(1, 'days').toDate())
     const { variants, user, createAppointment, history } = props
 
 
@@ -49,7 +49,7 @@ function DateSelect(props) {
         const appt = {
             bookedOn: new Date(),
             date: formattedDate[0],
-            timeStamp:appointmentDate,
+            timeStamp: appointmentDate,
             userId: user.uid,
             userName: user.displayName || user.email
         }
@@ -61,7 +61,7 @@ function DateSelect(props) {
         }
     }
 
-
+    const reformattedDate = date.toISOString().split("T")[0].split("-")
 
     return (
 
@@ -79,10 +79,11 @@ function DateSelect(props) {
                             stiffness: 260,
                             damping: 20
                         }}>
-                        <Calendar  minDate={moment().add(1, 'days').toDate()} onChange={onChange} />
+                        <Calendar minDate={moment().add(1, 'days').toDate()} onChange={onChange} />
                     </motion.div>
                 </div>
-
+                <p style={{ marginBottom:"0"}}>Appointment date set to </p>
+                <p style={{ color: "white", fontWeight: "bold", borderRadius: "3px", backgroundColor: "#adacac", padding: "5px", margin: "0 0 15px" }}>{reformattedDate[2] + "/" + reformattedDate[1] + "/" + reformattedDate[0]}</p>
                 <Button text={"SELECT DATE"} onClick={e => handleSubmit(date)} /> {/**handleSubmit() <- like this will run immediately in react */}
 
             </StyledWrapper>

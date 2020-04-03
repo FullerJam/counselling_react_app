@@ -77,26 +77,26 @@ const StyledAppointmentsWrap = styled.div`
 
 
 function Appointments(props) {
-
-    const [appointments, setAppointnments] = useState([])
+    
+    const [appointments, setAppointments] = useState([])
     const { variants, readAppointments } = props
-    const user = useContext(UserContext) // wouldnt work with props undefined // breaks on page refresh, fixed with useLayoutEffect & if statement
     const userLocal = JSON.parse(localStorage.getItem('user')) // used local storage instead of useContext, and added else statement to useAuth to fix. Worked but if user logged out and then logged back in & redir to appts threw error
+    const user = useContext(UserContext) // wouldnt work with props undefined // breaks on page refresh, fixed with useLayoutEffect & if statement
     const initialRender = useRef(true);
-    useLayoutEffect(() => {
-        if(initialRender.current){ //prevents page from crashing
-            initialRender.current = false
-            return
-        }
+    useEffect(() => {
+        // if(initialRender.current){ //prevents page from crashing but doesnt load 
+        //     initialRender.current = false
+        //     return
+        // }
         const getAllAppointments = async () => {
             const allAppointments = await readAppointments(user)
             let appts = []
             allAppointments.forEach(appointment => appts.push({ ...appointment.data(), ...{ id: appointment.id } }))
-            setAppointnments(appts)
+            setAppointments(appts)
         }
         getAllAppointments()
 
-    }, [useAuth, readAppointments, setAppointnments])
+    }, [useAuth, readAppointments, setAppointments])
 
     return (
         <motion.div initial="out" animate="in" exit="out" variants={variants}>
