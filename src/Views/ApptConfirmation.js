@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { motion } from "framer-motion"
+import { Link } from "react-router-dom"
 import Button from "../Components/Button"
 import chatImage from "../assets/chat_.svg"
 
@@ -49,10 +50,12 @@ function ApptConfirmation(props) {
                     <StyledImg>
                         <img src={chatImage} alt="person" />
                     </StyledImg>
-                    <StyledH3>You’ve confirmed your booking! <br/> Do you need to speak to anyone Urgently??</StyledH3>
+                    <StyledH3>You’ve confirmed your booking! <br /> Do you need to speak to anyone Urgently??</StyledH3>
 
-                    <Button text={"CHAT"}/>
-                    <p>Support is available for those struggling with emotional well-being or mental health whatever time of day.  </p>
+                    <Link to="/chat">
+                        <Button text={"CHAT"} />
+                    </Link>
+                    <p>Support is available for those struggling with emotional well-being whatever time of day.  </p>
                 </ContentWrapper>
             </motion.div>
         </React.Fragment>

@@ -15,7 +15,10 @@ const admin = require("firebase-admin");
  return db
      .collection("users")
      .doc(user.uid)
-     .set({isAdmin:false}, {merge:true})
+     .set({
+        isAdmin:false,
+        email:user.email
+    }, {merge:true})
 
  });
 

@@ -38,14 +38,14 @@ const ContentWrapper = styled.div`
 function Chat(props) {
   const user = useContext(UserContext)
   const { readChatMsgs, writeChatMsg } = props
-  const [message, setMessages] = useState([])
+  const [messages, setMessages] = useState([])
   const [textInput, setTextInput] = useState("")
 
   const getMessages = async () => {
     let chatMessages = []
-    console.log(user.uid)
+    console.log(user)
     const chatRef = await readChatMsgs(user.uid)
-    chatRef.forEach(c => chatMessages.push(c.data()))
+    chatRef.forEach(chat => chatMessages.push(chat.data()))
     setMessages(chatMessages)
   };
 
@@ -54,16 +54,15 @@ function Chat(props) {
   }, [readChatMsgs, setMessages, user])
 
   const handleUpdateSubmit = async e => {
-
     if (!e.key) {
+      console.log(e.key)
       setTextInput(e.target.value)
       return
     }
-
-    if (textInput !== "" && e.key === "13") {
+    if (textInput != "" && e.key === "Enter") {
       try {
         const newMsg = {
-          msg: message,
+          msg: textInput,
           time: new Date().toISOString(),
           userId: user.uid
         }
@@ -82,13 +81,13 @@ function Chat(props) {
   return (
     <React.Fragment>
       <ContentWrapper>
-        {console.log(message)}
+        {console.log(messages)}
         <textarea
           rows="3"
           placeholder="Type something here..."
-          onChange={handleUpdateSubmit}
-          onKeyPress={handleUpdateSubmit}
           value={textInput}
+          // onKeyPress={handleUpdateSubmit} think you only need on change
+          onChange={handleUpdateSubmit}
         ></textarea>
       </ContentWrapper>
     </React.Fragment>

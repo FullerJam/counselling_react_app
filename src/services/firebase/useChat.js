@@ -8,10 +8,10 @@ function useChat(fStore) {
         .orderBy("time", "asc")
         .get();
     
-        const writeChatMsg = (id, newMsg) =>
+        const writeChatMsg = (userId, newMsg) =>
       ref
-        .doc(id)
-        .collection("chat")
+        .doc(userId)
+        .collection("chats")
         .add(newMsg)
 
     return { 
