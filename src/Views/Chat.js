@@ -9,8 +9,9 @@ import UserContext from "../config/user-context"
 
 const ContentWrapper = styled.div`
   background-color:#e5e5e5;
-  padding:10px;
-  height:85vh;
+  padding:50px;
+  height:100%;
+  min-height:80vh;
   width:100%;
   margin:0 auto;
   max-width:1000px;
@@ -31,15 +32,17 @@ const ContentWrapper = styled.div`
   }
   @media(max-width:1020px){
     max-width:560px;
+    padding:20px;
   }
   @media(max-width:580px){
     max-width:300px;
+    padding:10px;
   }
 `
 
 function Chat(props) {
   const user = useContext(UserContext)
-  const { readChatMsgs, writeChatMsg } = props
+  const { readChatMsgs, writeChatMsg, variants } = props
   const [messages, setMessages] = useState([])
   const [textInput, setTextInput] = useState("")
 
@@ -83,19 +86,33 @@ function Chat(props) {
 
 
   return (
-    <React.Fragment>
-      <ContentWrapper>
-        {messages.map(message => <ChatBubble chatMessage={message.msg} />)}
-        <textarea
-          rows="3"
-          placeholder="Type something here..."
-          value={textInput}
-          onKeyPress={handleUpdateSubmit}
-          onChange={e => setTextInput(e.target.value)}
-        ></textarea>
-      </ContentWrapper>
+    <motion.div initial="out" animate="in" exit="out" variants={variants}>
+      <React.Fragment>
+        <ContentWrapper>
+          {messages.map(message =>
 
-    </React.Fragment>
+            <motion.div initial={{ scale: 0.5 }}
+              animate={{ scale: 1 }}
+              transition={{
+                type: "spring",
+                stiffness: 260,
+                damping: 20
+              }}>
+              <ChatBubble chatMessage={message.msg} />
+            </motion.div>
+
+          )}
+          <textarea
+            rows="3"
+            placeholder="Type something here..."
+            value={textInput}
+            onKeyPress={handleUpdateSubmit}
+            onChange={e => setTextInput(e.target.value)}
+          ></textarea>
+        </ContentWrapper>
+
+      </React.Fragment>
+    </motion.div>
   )
 }
 
