@@ -4,7 +4,7 @@ function useChat(fStore) {
     const readChatMsgs = userId =>
       ref
         .doc(userId)
-        .collection("chat")
+        .collection("chats")
         .orderBy("time", "asc")
         .get();
     

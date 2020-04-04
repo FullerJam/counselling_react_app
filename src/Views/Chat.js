@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useContext } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
+import ChatBubble from '../Components/ChatBubble'
 import { motion } from "framer-motion"
 
 //context
@@ -8,6 +9,7 @@ import UserContext from "../config/user-context"
 
 const ContentWrapper = styled.div`
   background-color:#e5e5e5;
+  padding:10px;
   height:85vh;
   width:100%;
   margin:0 auto;
@@ -43,7 +45,7 @@ function Chat(props) {
 
   const getMessages = async () => {
     let chatMessages = []
-    console.log(user)
+    // console.log(user)
     const chatRef = await readChatMsgs(user.uid)
     chatRef.forEach(chat => chatMessages.push(chat.data()))
     setMessages(chatMessages)
@@ -54,12 +56,14 @@ function Chat(props) {
   }, [readChatMsgs, setMessages, user])
 
   const handleUpdateSubmit = async e => {
-    if (!e.key) {
-      console.log(e.key)
-      setTextInput(e.target.value)
-      return
-    }
+    // if ENTER was pressed without SHIFT, prevent default
+    // if(e.key === "Enter" && !e.shiftKey){
+    //   e.preventDefault()
+    //   return false
+    // }
+    // if textbox value isnt empty and ENTER is pressed
     if (textInput != "" && e.key === "Enter") {
+      console.log(e.key)
       try {
         const newMsg = {
           msg: textInput,
@@ -81,15 +85,16 @@ function Chat(props) {
   return (
     <React.Fragment>
       <ContentWrapper>
-        {console.log(messages)}
+        {messages.map(message => <ChatBubble chatMessage={message.msg} />)}
         <textarea
           rows="3"
           placeholder="Type something here..."
           value={textInput}
-          // onKeyPress={handleUpdateSubmit} think you only need on change
-          onChange={handleUpdateSubmit}
+          onKeyPress={handleUpdateSubmit}
+          onChange={e => setTextInput(e.target.value)}
         ></textarea>
       </ContentWrapper>
+
     </React.Fragment>
   )
 }
