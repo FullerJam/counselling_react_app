@@ -17,7 +17,8 @@ const admin = require("firebase-admin");
      .doc(user.uid)
      .set({
         isAdmin:false,
-        email:user.email
+        email:user.email,
+        avatar:user.photoURL
     }, {merge:true})
 
  });

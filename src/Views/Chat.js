@@ -1,12 +1,73 @@
-import React, { useEffect, useState, useContext, useRef } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import ChatBubble from '../Components/ChatBubble'
+import FriendTile from '../Components/FriendTile'
 import { motion } from "framer-motion"
 
 //context
 import UserContext from "../config/user-context"
 
+
+const StyledNav = styled.div`
+    transition: all 0.5s ease-in-out;
+    transform: ${({ open }) => (open ? "translateX(0)" : "translateX(-90%)")};
+    min-height:84vh;
+    width:300px;
+    max-height:65;
+    overflow-y:${({ open }) => (open ? "scroll" : "visible")};
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    position: absolute;
+    padding-top: 2%;
+    top: 10;
+    left: 0;
+    background-color:#e4e4e4;
+    -webkit-scrollbar:none;
+    
+  `;
+
+
+
+
+function FriendsList(props) {
+  
+  const user = useContext(UserContext)
+  const { getFriendsList } = props
+  const [open, setIsOpen] = useState(false)
+
+  const [friends, setFriends] = useState([])
+
+
+
+  const handleFriendGet = async () => {
+    const friendRef = await getFriendsList()
+    friendRef.forEach(friend => friends.push(friend.data()))
+    setFriends(friends)
+  }
+
+  return (
+    <React.Fragment>
+      <StyledNav
+        onClick={() => setIsOpen(!open), handleFriendGet}
+        open={open}
+      >
+        <FriendTile />
+      </StyledNav>
+    </React.Fragment>
+  );
+}
+
+FriendsList.propTypes = {
+  onClick: PropTypes.func.isRequired
+};
+
+const StyledFriendsWrapper = styled.div`
+  display:flex;
+  flex-direction:row;
+  width:100%;
+`
 
 const StyledContentWrapper = styled.div`
   background-color:#e5e5e5;
@@ -17,14 +78,10 @@ const StyledContentWrapper = styled.div`
   max-width:1000px;
   overflow-y:scroll;
   textarea{
-      width:85%;
-      margin:0 auto;
-      position:absolute;
-      bottom:0;
-      left:calc(6%);
-      font-size:16px;
-      font-family:"Poppins";
-      padding:15px;
+    width:85%;
+    font-size:16px;
+    font-family:"Poppins";
+    padding:15px;
   }
   textarea::placeholder {
     font-size:16px;
@@ -73,7 +130,9 @@ const StyledContentWrapper2 = styled.div`
 const StyledComponentWrapper = styled.div`
   display:flex;
   flex-direction:column;
+  justify-content:center;
   align-items:center;
+  width:100%;
 `
 
 const StyledAnchor = styled.div`
@@ -95,15 +154,16 @@ function Chat(props) {
     const chatRef = await readChatMsgs(user.uid)
     chatRef.forEach(chat => chatMessages.push(chat.data()))
     setMessages(chatMessages)
+    updateScroll()
   };
 
   // scroll to bottom of chat with useEffect "Cannot add property scrollTop, object is not extensible"
   // const divEndRef = useRef(null)
 
-  // const updateScroll = () => {
-  //   console.log(divEndRef)
-  //   setScrollTop(divEndRef.scrollHeight)
-  // }
+  const updateScroll = () => {
+    let node = document.getElementById('chat-box-end')
+    node.scrollIntoView();
+  }
 
   // useEffect(() => {
   //   updateScroll()
@@ -144,35 +204,38 @@ function Chat(props) {
   return (
     <motion.div initial="out" animate="in" exit="out" variants={variants}>
       <React.Fragment>
-        <StyledComponentWrapper>
-          <StyledContentWrapper>
-            {messages.map(message =>
+        <StyledFriendsWrapper>
+          <FriendsList />
+          <StyledComponentWrapper>
+            <StyledContentWrapper>
+              {messages.map(message =>
 
-              <motion.div initial={{ scale: 0.5 }}
-                animate={{ scale: 1 }}
-                transition={{
-                  type: "spring",
-                  stiffness: 260,
-                  damping: 20
-                }}>
-                <ChatBubble chatMessage={message} />
-              </motion.div>
+                <motion.div initial={{ scale: 0.5 }}
+                  animate={{ scale: 1 }}
+                  transition={{
+                    type: "spring",
+                    stiffness: 260,
+                    damping: 20
+                  }}>
+                  <ChatBubble chatMessage={message} />
+                </motion.div>
 
-            )}
-            <StyledAnchor></StyledAnchor>
-          </StyledContentWrapper>
-          <StyledContentWrapper2>
+              )}
+              <StyledAnchor id='chat-box-end'>&nbsp;</StyledAnchor>
+            </StyledContentWrapper>
+            <StyledContentWrapper2>
 
-            <textarea
-              rows="3"
-              placeholder="Type something here..."
-              value={textInput}
-              onKeyPress={handleUpdateSubmit}
-              onChange={e => setTextInput(e.target.value)}
-            ></textarea>
+              <textarea
+                rows="3"
+                placeholder="Type something here..."
+                value={textInput}
+                onKeyPress={handleUpdateSubmit}
+                onChange={e => setTextInput(e.target.value)}
+              ></textarea>
 
-          </StyledContentWrapper2>
-        </StyledComponentWrapper>
+            </StyledContentWrapper2>
+          </StyledComponentWrapper>
+        </StyledFriendsWrapper>
 
       </React.Fragment>
     </motion.div>

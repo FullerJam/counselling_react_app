@@ -14,6 +14,7 @@ import "firebase/firestore";
 import useAuth from "./services/firebase/useAuth"
 import useDateSelect from "./services/firebase/useDateSelect";
 import useChat from "./services/firebase/useChat";
+import useFriendsList from "./services/firebase/useFriendsList";
 
 import { AnimatePresence } from "framer-motion"
 import { Switch, useLocation, Route, Redirect } from "react-router-dom"
@@ -98,12 +99,14 @@ function App() {
     createAppointment,
     readAppointments
   } = useDateSelect(firebase.firestore)
-
   const {
     readChatMsgs,
     writeChatMsg
   } = useChat(firebase.firestore)
-
+  const {
+    getFriendsList
+  } = useFriendsList(firebase.firestore)
+  
 
   const location = useLocation();
 
@@ -157,7 +160,7 @@ function App() {
             </Protected>
 
             <Protected authenticated={isAuthenticated} path="/chat">
-              <Chat history={history} readChatMsgs={readChatMsgs} writeChatMsg={writeChatMsg} user={user} variants={variants} />
+              <Chat getFriendsList={getFriendsList} history={history} readChatMsgs={readChatMsgs} writeChatMsg={writeChatMsg} user={user} variants={variants} />
             </Protected>
 
           </Switch>
