@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from 'react'
+import React, { useEffect, useState, useContext, useRef } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import ChatBubble from '../Components/ChatBubble'
@@ -7,15 +7,15 @@ import { motion } from "framer-motion"
 //context
 import UserContext from "../config/user-context"
 
-const ContentWrapper = styled.div`
+
+const StyledContentWrapper = styled.div`
   background-color:#e5e5e5;
   padding:50px;
-  height:100%;
-  min-height:80vh;
+  min-height:65vh;
+  max-height:65vh;
   width:100%;
-  margin:0 auto;
   max-width:1000px;
-  position: relative;
+  overflow-y:scroll;
   textarea{
       width:85%;
       margin:0 auto;
@@ -38,6 +38,47 @@ const ContentWrapper = styled.div`
     max-width:300px;
     padding:10px;
   }
+  *{
+    overflow-anchor: none;
+  }
+`
+const StyledContentWrapper2 = styled.div`
+  background-color:#e5e5e5;
+  width:100%;
+  height:10vh;
+  padding:0 50px;
+  max-width:1000px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  textarea{
+      font-size:16px;
+      font-family:"Poppins";
+      padding:15px;
+      width:100%;
+  }
+  textarea::placeholder {
+    font-size:16px;
+    font-family:"Poppins";
+  }
+  @media(max-width:1020px){
+    max-width:560px;
+    padding:20px;
+  }
+  @media(max-width:580px){
+    max-width:300px;
+    padding:10px;
+  }
+`
+const StyledComponentWrapper = styled.div`
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+`
+
+const StyledAnchor = styled.div`
+  overflow-anchor: auto;
+  height:1px;
 `
 
 function Chat(props) {
@@ -46,6 +87,8 @@ function Chat(props) {
   const [messages, setMessages] = useState([])
   const [textInput, setTextInput] = useState("")
 
+
+
   const getMessages = async () => {
     let chatMessages = []
     // console.log(user)
@@ -53,6 +96,18 @@ function Chat(props) {
     chatRef.forEach(chat => chatMessages.push(chat.data()))
     setMessages(chatMessages)
   };
+
+  // scroll to bottom of chat with useEffect "Cannot add property scrollTop, object is not extensible"
+  // const divEndRef = useRef(null)
+
+  // const updateScroll = () => {
+  //   console.log(divEndRef)
+  //   setScrollTop(divEndRef.scrollHeight)
+  // }
+
+  // useEffect(() => {
+  //   updateScroll()
+  // }, [readChatMsgs])
 
   useEffect(() => {
     getMessages()
@@ -71,7 +126,8 @@ function Chat(props) {
         const newMsg = {
           msg: textInput,
           time: new Date().toISOString(),
-          userId: user.uid
+          userId: user.uid,
+          email: user.email
         }
         setTextInput("")
         await writeChatMsg(user.uid, newMsg)
@@ -88,28 +144,35 @@ function Chat(props) {
   return (
     <motion.div initial="out" animate="in" exit="out" variants={variants}>
       <React.Fragment>
-        <ContentWrapper>
-          {messages.map(message =>
+        <StyledComponentWrapper>
+          <StyledContentWrapper>
+            {messages.map(message =>
 
-            <motion.div initial={{ scale: 0.5 }}
-              animate={{ scale: 1 }}
-              transition={{
-                type: "spring",
-                stiffness: 260,
-                damping: 20
-              }}>
-              <ChatBubble chatMessage={message.msg} />
-            </motion.div>
+              <motion.div initial={{ scale: 0.5 }}
+                animate={{ scale: 1 }}
+                transition={{
+                  type: "spring",
+                  stiffness: 260,
+                  damping: 20
+                }}>
+                <ChatBubble chatMessage={message} />
+              </motion.div>
 
-          )}
-          <textarea
-            rows="3"
-            placeholder="Type something here..."
-            value={textInput}
-            onKeyPress={handleUpdateSubmit}
-            onChange={e => setTextInput(e.target.value)}
-          ></textarea>
-        </ContentWrapper>
+            )}
+            <StyledAnchor></StyledAnchor>
+          </StyledContentWrapper>
+          <StyledContentWrapper2>
+
+            <textarea
+              rows="3"
+              placeholder="Type something here..."
+              value={textInput}
+              onKeyPress={handleUpdateSubmit}
+              onChange={e => setTextInput(e.target.value)}
+            ></textarea>
+
+          </StyledContentWrapper2>
+        </StyledComponentWrapper>
 
       </React.Fragment>
     </motion.div>

@@ -26,6 +26,7 @@ const StyledCorner = styled.div`
 `
 
 const StyledWrapper = styled.span`
+    overflow-anchor: none;
     display:flex;
     align-items:flex-end;
     max-width: 300px;
@@ -41,9 +42,11 @@ function ChatBubble(props) {
     return (
         <React.Fragment>
             <StyledWrapper>
-                <StyledCorner/>
+                <StyledCorner />
                 <StyledChat>
-                    <p>{chatMessage}</p>
+                    <label>{chatMessage.email}</label>
+                    <p>{chatMessage.msg}</p>
+                    
                 </StyledChat>
             </StyledWrapper>
         </React.Fragment>
