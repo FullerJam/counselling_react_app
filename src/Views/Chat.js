@@ -25,7 +25,6 @@ const StyledNav = styled.div`
     left: 0;
     background-color:#e4e4e4;
     -webkit-scrollbar:none;
-    
   `;
 
 
@@ -42,9 +41,10 @@ function FriendsList(props) {
 
 
   const handleFriendGet = async () => {
-    const friendRef = await getFriendsList()
-    friendRef.forEach(friend => friends.push(friend.data()))
-    setFriends(friends)
+    let friendsArray= []
+    const friendRef = await getFriendsList(user.userId)
+    friendRef.forEach(friend => friendsArray.push(friend.data()))
+    setFriends(friendsArray)
   }
 
   return (
