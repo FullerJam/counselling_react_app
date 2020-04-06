@@ -3,9 +3,8 @@ import theme from "../config/theme.js"
 import PropTypes from "prop-types"
 import styled from "styled-components"
 import { Link } from "react-router-dom"
-import avatarPlaceholder from "../assets/avatar_placeholder.png"
 
-import moment from "moment";
+import moment from "moment"
 
 import avatarIcon from "../assets/avatar_placeholder.png"
 
@@ -23,34 +22,42 @@ const StyledIconCircle = styled.div`
     width:40px;
     }
 `
-
-
-const StyledApptWrapper = styled.div`
-    display:flex;
+const StyledFriendsWrapper = styled.div`
     width:100%;
-    margin-left:20px;
-    h6{
-        color:grey;
-        margin:5px 0;
-        padding:0px;
-    }
-    
+
 `
-//Date check variables date-fns library
-const currentDate = new Date()
+const StyledContactWrapper = styled.div`
+        transition: all 0.5s ease-in-out;
+        display:${({ open }) => (open ? "flex" : "none")};
+        width:100%;
+        padding:10px;
+        margin-left:20px;
+        h6{
+            color:grey;
+            margin:5px 0;
+            padding:0px;
+        }
+        
+    `
+
 
 function FriendTile(props) {
+    const { friends, open } = props
 
     // const { getUsers } = props
 
     return (
         <div>
-            <StyledApptWrapper>
-                <StyledIconCircle>
-                    <img src={avatarIcon} alt="appt icon" />
-                </StyledIconCircle>
-                <h6>Username</h6>
-            </StyledApptWrapper>
+            <StyledFriendsWrapper>
+                {friends.map(friend =>
+                    <StyledContactWrapper open={open}>
+                        <StyledIconCircle>
+                            <img src={friends.avatar || avatarIcon} alt="avatar" />
+                        </StyledIconCircle>
+                        <h6>{friend.email}</h6>
+                    </StyledContactWrapper>
+                )}
+            </StyledFriendsWrapper>
         </div>
 
     )

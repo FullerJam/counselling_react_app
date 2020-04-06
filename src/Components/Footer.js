@@ -1,4 +1,5 @@
 import React from "react";
+import { useLocation } from "react-router-dom"
 import theme from "../config/theme.js"
 import PropTypes from "prop-types";
 import styled from "styled-components";
@@ -23,16 +24,19 @@ const StyledIcon = styled.div`
     width:25px;
     height:25px;
 `
-
 function Footer(props) {
+    const location = useLocation();
 
     return (
         <div>
             <StyledWrapper>
                 <StyledIcon>
-                    <Link to="/chat">
-                        <img src={chatIcon} alt="" />
-                    </Link>
+                    {location.pathname != "/chat" &&
+                        <Link to="/chat">
+                            <img src={chatIcon} alt="" />
+                        </Link>
+                    }
+
                 </StyledIcon>
             </StyledWrapper>
         </div>

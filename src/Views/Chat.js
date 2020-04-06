@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from 'react'
+import React, { useEffect, useState, useContext, useLayoutEffect, useRef } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import ChatBubble from '../Components/ChatBubble'
@@ -9,73 +9,19 @@ import { motion } from "framer-motion"
 import UserContext from "../config/user-context"
 
 
-const StyledNav = styled.div`
-    transition: all 0.5s ease-in-out;
-    transform: ${({ open }) => (open ? "translateX(0)" : "translateX(-90%)")};
-    min-height:84vh;
-    width:300px;
-    max-height:65;
-    overflow-y:${({ open }) => (open ? "scroll" : "visible")};
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    position: absolute;
-    padding-top: 2%;
-    top: 10;
-    left: 0;
-    background-color:#e4e4e4;
-    -webkit-scrollbar:none;
-  `;
-
-
-
-
-function FriendsList(props) {
-  
-  const user = useContext(UserContext)
-  const { getFriendsList } = props
-  const [open, setIsOpen] = useState(false)
-
-  const [friends, setFriends] = useState([])
-
-
-
-  const handleFriendGet = async () => {
-    let friendsArray= []
-    const friendRef = await getFriendsList(user.userId)
-    friendRef.forEach(friend => friendsArray.push(friend.data()))
-    setFriends(friendsArray)
-  }
-
-  return (
-    <React.Fragment>
-      <StyledNav
-        onClick={() => setIsOpen(!open), handleFriendGet}
-        open={open}
-      >
-        <FriendTile />
-      </StyledNav>
-    </React.Fragment>
-  );
-}
-
-FriendsList.propTypes = {
-  onClick: PropTypes.func.isRequired
-};
+import contactIcon from "../assets/contactsIcon.svg"
 
 const StyledFriendsWrapper = styled.div`
   display:flex;
   flex-direction:row;
   width:100%;
 `
-
-const StyledContentWrapper = styled.div`
+const StyledMsgWrapper = styled.div`
+  padding-top:20px;
   background-color:#e5e5e5;
-  padding:50px;
-  min-height:65vh;
-  max-height:65vh;
+  min-height:73vh;
+  max-height:73vh;
   width:100%;
-  max-width:1000px;
   overflow-y:scroll;
   textarea{
     width:85%;
@@ -87,51 +33,34 @@ const StyledContentWrapper = styled.div`
     font-size:16px;
     font-family:"Poppins";
   }
-  @media(max-width:1020px){
-    max-width:560px;
-    padding:20px;
-  }
-  @media(max-width:580px){
-    max-width:300px;
-    padding:10px;
-  }
   *{
     overflow-anchor: none;
   }
 `
-const StyledContentWrapper2 = styled.div`
+const StyledTextAreaWrapper = styled.div`
   background-color:#e5e5e5;
   width:100%;
   height:10vh;
-  padding:0 50px;
-  max-width:1000px;
   display:flex;
   align-items:center;
   justify-content:center;
   textarea{
       font-size:16px;
       font-family:"Poppins";
-      padding:15px;
+      padding:15px 15px 15px 30px;
       width:100%;
   }
   textarea::placeholder {
     font-size:16px;
     font-family:"Poppins";
   }
-  @media(max-width:1020px){
-    max-width:560px;
-    padding:20px;
-  }
-  @media(max-width:580px){
-    max-width:300px;
-    padding:10px;
-  }
 `
 const StyledComponentWrapper = styled.div`
   display:flex;
   flex-direction:column;
   justify-content:center;
-  align-items:center;
+  align-items:flex-end;
+  margin-left:2%;
   width:100%;
 `
 
@@ -142,10 +71,9 @@ const StyledAnchor = styled.div`
 
 function Chat(props) {
   const user = useContext(UserContext)
-  const { readChatMsgs, writeChatMsg, variants } = props
+  const { readChatMsgs, writeChatMsg, variants, getFriendsList } = props
   const [messages, setMessages] = useState([])
   const [textInput, setTextInput] = useState("")
-
 
 
   const getMessages = async () => {
@@ -157,20 +85,15 @@ function Chat(props) {
     updateScroll()
   };
 
-  // scroll to bottom of chat with useEffect "Cannot add property scrollTop, object is not extensible"
-  // const divEndRef = useRef(null)
 
   const updateScroll = () => {
     let node = document.getElementById('chat-box-end')
     node.scrollIntoView();
   }
 
-  // useEffect(() => {
-  //   updateScroll()
-  // }, [readChatMsgs])
-
   useEffect(() => {
-    getMessages()
+
+    // getMessages()
   }, [readChatMsgs, setMessages, user])
 
   const handleUpdateSubmit = async e => {
@@ -205,9 +128,9 @@ function Chat(props) {
     <motion.div initial="out" animate="in" exit="out" variants={variants}>
       <React.Fragment>
         <StyledFriendsWrapper>
-          <FriendsList />
+          <FriendsList getFriendsList={getFriendsList} />
           <StyledComponentWrapper>
-            <StyledContentWrapper>
+            <StyledMsgWrapper>
               {messages.map(message =>
 
                 <motion.div initial={{ scale: 0.5 }}
@@ -222,8 +145,8 @@ function Chat(props) {
 
               )}
               <StyledAnchor id='chat-box-end'>&nbsp;</StyledAnchor>
-            </StyledContentWrapper>
-            <StyledContentWrapper2>
+            </StyledMsgWrapper>
+            <StyledTextAreaWrapper>
 
               <textarea
                 rows="3"
@@ -233,7 +156,7 @@ function Chat(props) {
                 onChange={e => setTextInput(e.target.value)}
               ></textarea>
 
-            </StyledContentWrapper2>
+            </StyledTextAreaWrapper>
           </StyledComponentWrapper>
         </StyledFriendsWrapper>
 
@@ -244,6 +167,91 @@ function Chat(props) {
 
 Chat.propTypes = {
 
+}
+
+const StyledNav = styled.div`
+    transition: all 0.5s ease-in-out;
+    transform: ${({ open }) => (open ? "translateX(0)" : "translateX(-88%)")};
+    min-height:86vh;
+    width:300px;
+    max-height:65;
+    overflow-y:${({ open }) => (open ? "scroll" : "visible")};
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    position: absolute;
+    /* padding-top: 2%; */
+    top: 10;
+    left: 0;
+    background-color:#d4d4d4;
+    -webkit-scrollbar:none;
+  `;
+
+const StyledIconContainer = styled.div`
+    /* height:${({ open }) => (open ? "auto" : "89vh")}; */
+    img{
+      width:40px;
+      height:40px;
+    }
+    margin-right:1px;
+  `
+
+
+function FriendsList(props) {
+
+  const user = useContext(UserContext)
+  const { getFriendsList } = props
+  const [open, setIsOpen] = useState(false)
+
+  const [friends, setFriends] = useState([])
+
+  const initialRender = useRef(true);
+
+  useLayoutEffect(() => {
+    if (initialRender.current) {
+      const handleFriendGet = async () => {
+        let friendsArray = []
+        const friendRef = await getFriendsList(user.userId)
+        friendRef.forEach(friend => friendsArray.push(friend.data()))
+        setFriends(friendsArray)
+      }
+      handleFriendGet()
+      initialRender.current = false
+    }
+  }, [])
+  // const handleFriendGet = async () => {
+  //   let friendsArray= []
+  //   const friendRef = await getFriendsList(user.userId)
+  //   friendRef.forEach(friend => friendsArray.push(friend.data()))
+  //   setFriends(friendsArray)
+  //   console.log(friendsArray);
+  // }
+
+  return (
+    <React.Fragment>
+
+      <StyledNav open={open}>
+        {
+          !open
+            ?
+            <StyledIconContainer onClick={() => setIsOpen(!open)}>
+              <img src={contactIcon} alt="friends icon" />
+            </StyledIconContainer>
+            :
+            <StyledIconContainer onClick={() => setIsOpen(!open)}>
+              <div style={{ padding: "10px"}}>
+                ⛌
+              </div>
+            </StyledIconContainer>
+        }
+        <FriendTile friends={friends} open={open} />
+      </StyledNav>
+    </React.Fragment>
+  );
+}
+
+FriendsList.propTypes = {
+  onClick: PropTypes.func.isRequired,
 }
 
 export default Chat

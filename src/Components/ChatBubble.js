@@ -33,7 +33,7 @@ const StyledWrapper = styled.span`
     display:flex;
     align-items:flex-end;
     max-width: 300px;
-    margin-bottom:5px;
+    padding:0 0 10px 50px;
 `
 
 
