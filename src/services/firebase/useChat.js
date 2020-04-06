@@ -3,14 +3,9 @@
 function useChat(fStore) {
   const ref = fStore().collection('users');
 
-  const readChatMsgs = userId =>
-    ref
-      .doc("chatMessages")
-      .collection("chats")
-      .orderBy("time", "asc")
-      .get();
+  
 
-  const writeChatMsg = (userId, newMsg) =>
+  const writeChatMsg = (newMsg) =>
     ref
       .doc("chatMessages")
       .collection("chats")

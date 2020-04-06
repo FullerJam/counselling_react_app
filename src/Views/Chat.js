@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import ChatBubble from '../Components/ChatBubble'
 import FriendTile from '../Components/FriendTile'
 import { motion } from "framer-motion"
+import useAuth from "../services/firebase/useAuth"
 
 //context
 import UserContext from "../config/user-context"
@@ -71,20 +72,9 @@ const StyledAnchor = styled.div`
 
 function Chat(props) {
   const user = useContext(UserContext)
-  const { readChatMsgs, writeChatMsg, variants, getFriendsList } = props
+  const { writeChatMsg, variants, getFriendsList, firestore } = props
   const [messages, setMessages] = useState([])
   const [textInput, setTextInput] = useState("")
-
-
-  const getMessages = async () => {
-    let chatMessages = []
-    // console.log(user)
-    const chatRef = await readChatMsgs(user.uid)
-    chatRef.forEach(chat => chatMessages.push(chat.data()))
-    setMessages(chatMessages)
-    updateScroll()
-  };
-
 
   const updateScroll = () => {
     let node = document.getElementById('chat-box-end')
@@ -92,9 +82,35 @@ function Chat(props) {
   }
 
   useEffect(() => {
+    // console.log(user)
+    let chatMessages = []
+    const chatRef = firestore.collection('users').doc('chatMessages').collection("chats").onSnapshot(snapshot => {
+      if (snapshot.size) {
+        chatMessages = []
+        snapshot.forEach(chat => chatMessages.push(chat.data()))
+        setMessages(chatMessages)
+        console.log(chatMessages)
+        updateScroll()
+      }
+    })
+    return () => {
+      chatRef()
+    }
+  }, [setMessages, firestore])
 
-    // getMessages()
-  }, [readChatMsgs, setMessages, user])
+
+  // useEffect(() => {
+  //   const getMessages = async () => {
+  //     let chatMessages = []
+  //     // console.log(user)
+  //     const chatRef = readChatMsgs(user.uid).onSnapshot(snapshot => {
+  //       chatRef.forEach(chat => chatMessages.push(chat.data()))
+  //       setMessages(chatMessages)
+  //       updateScroll()
+  //     })
+  //     getMessages()
+  //   }
+  // }, [readChatMsgs, setMessages, useAuth])
 
   const handleUpdateSubmit = async e => {
     // if ENTER was pressed without SHIFT, prevent default
@@ -104,7 +120,6 @@ function Chat(props) {
     // }
     // if textbox value isnt empty and ENTER is pressed
     if (textInput != "" && e.key === "Enter") {
-      console.log(e.key)
       try {
         const newMsg = {
           msg: textInput,
@@ -113,8 +128,7 @@ function Chat(props) {
           email: user.email
         }
         setTextInput("")
-        await writeChatMsg(user.uid, newMsg)
-        getMessages()
+        await writeChatMsg(newMsg)
       } catch (error) {
         console.log(error.message)
       }
@@ -192,6 +206,7 @@ const StyledIconContainer = styled.div`
     img{
       width:40px;
       height:40px;
+      cursor:pointer;
     }
     margin-right:1px;
   `
@@ -205,20 +220,16 @@ function FriendsList(props) {
 
   const [friends, setFriends] = useState([])
 
-  const initialRender = useRef(true);
-
   useLayoutEffect(() => {
-    if (initialRender.current) {
-      const handleFriendGet = async () => {
-        let friendsArray = []
-        const friendRef = await getFriendsList(user.userId)
-        friendRef.forEach(friend => friendsArray.push(friend.data()))
-        setFriends(friendsArray)
-      }
-      handleFriendGet()
-      initialRender.current = false
+    const handleFriendGet = async () => {
+      let friendsArray = []
+      const friendRef = await getFriendsList(user.uid)
+      friendRef.forEach(friend => friendsArray.push(friend.data()))
+      const removeSelf = friendsArray.filter(friend => (friend.user != user.uid)) // add all user except yourself to friend list
+      setFriends(removeSelf)
     }
-  }, [])
+    handleFriendGet()
+  }, [useAuth, user])
   // const handleFriendGet = async () => {
   //   let friendsArray= []
   //   const friendRef = await getFriendsList(user.userId)
@@ -239,12 +250,12 @@ function FriendsList(props) {
             </StyledIconContainer>
             :
             <StyledIconContainer onClick={() => setIsOpen(!open)}>
-              <div style={{ padding: "10px"}}>
+              <div style={{ padding: "10px", cursor: "pointer" }}>
                 ⛌
               </div>
             </StyledIconContainer>
         }
-        <FriendTile friends={friends} open={open} />
+        <FriendTile friends={friends} open={open} user={user} />
       </StyledNav>
     </React.Fragment>
   );

@@ -7,14 +7,14 @@ import GlobalStyles from "./config/GlobalStyles"
 import UserContext from "./config/user-context"
 
 //firebase
-import firebase from "firebase/app";
+import firebase from "firebase/app"
 import firebaseConfig from "./config/firebase"
-import 'firebase/auth';
-import "firebase/firestore";
+import 'firebase/auth'
+import "firebase/firestore"
 import useAuth from "./services/firebase/useAuth"
-import useDateSelect from "./services/firebase/useDateSelect";
-import useChat from "./services/firebase/useChat";
-import useFriendsList from "./services/firebase/useFriendsList";
+import useDateSelect from "./services/firebase/useDateSelect"
+import useChat from "./services/firebase/useChat"
+import useFriendsList from "./services/firebase/useFriendsList"
 
 import { AnimatePresence } from "framer-motion"
 import { Switch, useLocation, Route, Redirect } from "react-router-dom"
@@ -29,13 +29,13 @@ import DateSelect from "./Views/DateSelect"
 import SignUp from "./Views/SignUp.js"
 import Header from "./Components/Header"
 import Footer from "./Components/Footer"
-import Loader from "./Components/Loader";
+import Loader from "./Components/Loader"
 // import Protected from "./Components/Protected"
 // import RedirectRoute from "./Components/Redirect"
 
-const history = createBrowserHistory(); //back button
+const history = createBrowserHistory() //back button
 
-let initAttemptedRoute = "/";
+let initAttemptedRoute = "/"
 
 function Protected({ authenticated, children, ...rest }) {
   initAttemptedRoute = useLocation().pathname;
@@ -100,7 +100,6 @@ function App() {
     readAppointments
   } = useDateSelect(firebase.firestore)
   const {
-    readChatMsgs,
     writeChatMsg
   } = useChat(firebase.firestore)
   const {
@@ -108,7 +107,7 @@ function App() {
   } = useFriendsList(firebase.firestore)
   
 
-  const location = useLocation();
+  const location = useLocation()
 
   const variants = {
     in: {
@@ -160,7 +159,7 @@ function App() {
             </Protected>
 
             <Protected authenticated={isAuthenticated} path="/chat">
-              <Chat getFriendsList={getFriendsList} history={history} readChatMsgs={readChatMsgs} writeChatMsg={writeChatMsg} user={user} variants={variants} />
+              <Chat firestore={firebase.firestore()} getFriendsList={getFriendsList} history={history} readChatMsgs={readChatMsgs} writeChatMsg={writeChatMsg} user={user} variants={variants} />
             </Protected>
 
           </Switch>

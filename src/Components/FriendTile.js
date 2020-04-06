@@ -42,8 +42,8 @@ const StyledContactWrapper = styled.div`
 
 
 function FriendTile(props) {
-    const { friends, open } = props
-
+    const { friends, open, user } = props
+    
     // const { getUsers } = props
 
     return (

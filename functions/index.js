@@ -14,10 +14,11 @@ const admin = require("firebase-admin");
  exports.userCreated = functions.auth.user().onCreate(user => {
  return db
      .collection("users")
-     .doc(user.uid)
+     .doc()
      .set({
         isAdmin:false,
         email:user.email,
+        user:user.uid,
         avatar:user.photoURL
     }, {merge:true})
 
