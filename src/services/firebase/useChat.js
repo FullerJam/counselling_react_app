@@ -3,8 +3,6 @@
 function useChat(fStore) {
   const ref = fStore().collection('users');
 
-  
-
   const writeChatMsg = (newMsg) =>
     ref
       .doc("chatMessages")
@@ -25,7 +23,6 @@ function useChat(fStore) {
   //   .add(newMsg)
 
   return {
-    readChatMsgs,
     writeChatMsg
   }
 

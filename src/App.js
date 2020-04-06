@@ -159,7 +159,7 @@ function App() {
             </Protected>
 
             <Protected authenticated={isAuthenticated} path="/chat">
-              <Chat firestore={firebase.firestore()} getFriendsList={getFriendsList} history={history} readChatMsgs={readChatMsgs} writeChatMsg={writeChatMsg} user={user} variants={variants} />
+              <Chat firestore={firebase.firestore()} getFriendsList={getFriendsList} history={history} writeChatMsg={writeChatMsg} user={user} variants={variants} />
             </Protected>
 
           </Switch>

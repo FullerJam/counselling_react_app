@@ -84,7 +84,7 @@ function Chat(props) {
   useEffect(() => {
     // console.log(user)
     let chatMessages = []
-    const chatRef = firestore.collection('users').doc('chatMessages').collection("chats").onSnapshot(snapshot => {
+    const chatRef = firestore.collection('users').doc('chatMessages').collection("chats").orderBy("time", "asc").onSnapshot(snapshot => {
       if (snapshot.size) {
         chatMessages = []
         snapshot.forEach(chat => chatMessages.push(chat.data()))
@@ -123,7 +123,7 @@ function Chat(props) {
       try {
         const newMsg = {
           msg: textInput,
-          time: new Date().toISOString(),
+          time: new Date(),
           userId: user.uid,
           email: user.email
         }
@@ -184,7 +184,7 @@ Chat.propTypes = {
 }
 
 const StyledNav = styled.div`
-    transition: all 0.5s ease-in-out;
+    transition: all 0.4s ease-in-out;
     transform: ${({ open }) => (open ? "translateX(0)" : "translateX(-88%)")};
     min-height:86vh;
     width:300px;

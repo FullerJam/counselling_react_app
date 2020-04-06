@@ -2,7 +2,7 @@ import React from "react"
 import theme from "../config/theme.js"
 import PropTypes from "prop-types"
 import styled from "styled-components"
-
+import moment from "moment";
 
 const StyledChat = styled.div`
     max-width: 300px;
@@ -11,6 +11,7 @@ const StyledChat = styled.div`
     padding:5px 10px;
     box-shadow: 0px 0.5px 1px rgba(0, 0, 0, 0.2);
     border-radius:5px 5px 5px 0px;
+    word-wrap: break-word;
     p{
         margin:0px;
     }
@@ -29,11 +30,19 @@ const StyledCorner = styled.div`
     left:0;
 `
 
-const StyledWrapper = styled.span`
+const StyledSpan = styled.span`
     display:flex;
     align-items:flex-end;
     max-width: 300px;
     padding:0 0 10px 50px;
+`
+
+const StyledTime = styled.p`
+    display:flex;
+    justify-content:flex-end;
+    width:100%;
+    font-size:8px;
+    color:#f4f4f4;
 `
 
 
@@ -44,13 +53,18 @@ function ChatBubble(props) {
 
     return (
         <React.Fragment>
-            <StyledWrapper>
+            <StyledSpan>
                 <StyledCorner />
                 <StyledChat>
                     <label>{chatMessage.email}</label>
                     <p>{chatMessage.msg}</p>
+                    <StyledTime>
+                        <div>
+                            {moment(chatMessage.time.toDate()).fromNow()}
+                        </div>
+                    </StyledTime>
                 </StyledChat>
-            </StyledWrapper>
+            </StyledSpan>
         </React.Fragment>
     );
 }
