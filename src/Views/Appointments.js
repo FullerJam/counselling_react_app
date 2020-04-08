@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef, useContext, useLayoutEffect } from "react"
+import React, { useEffect, useState, useContext } from "react"
 import useAuth from "../services/firebase/useAuth"
 
 import PropTypes from "prop-types"
@@ -96,7 +96,7 @@ function Appointments(props) {
         }
         getAllAppointments()
 
-    }, [useAuth, readAppointments, setAppointments])
+    }, [useAuth, readAppointments, setAppointments, user])
 
     return (
         <motion.div initial="out" animate="in" exit="out" variants={variants}>

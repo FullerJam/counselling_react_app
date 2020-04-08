@@ -1,23 +1,20 @@
-import React, { useEffect, useState, useContext, useLayoutEffect, useRef } from 'react'
+import React, { useEffect, useLayoutEffect, useRef, useState, useContext } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import ChatBubble from '../Components/ChatBubble'
-import FriendTile from '../Components/FriendTile'
 import { motion } from "framer-motion"
 import useAuth from "../services/firebase/useAuth"
-
 //context
 import UserContext from "../config/user-context"
 
-
+import avatarIcon from "../assets/avatar_placeholder.png"
 import contactIcon from "../assets/contactsIcon.svg"
 
 const StyledFriendsWrapper = styled.div`
   display:flex;
-  flex-direction:row;
   width:100%;
 `
-const StyledMsgWrapper = styled.div`
+const StyledChatWrapper = styled.div`
   padding-top:20px;
   background-color:#e5e5e5;
   min-height:73vh;
@@ -50,6 +47,8 @@ const StyledTextAreaWrapper = styled.div`
       font-family:"Poppins";
       padding:15px 15px 15px 30px;
       width:100%;
+      outline: none;
+      resize: none;
   }
   textarea::placeholder {
     font-size:16px;
@@ -64,15 +63,17 @@ const StyledComponentWrapper = styled.div`
   margin-left:2%;
   width:100%;
 `
-
 const StyledAnchor = styled.div`
   overflow-anchor: auto;
   height:1px;
 `
+let receiverIdGlobal = ""
+let chatIdGlobal = ""
 
 function Chat(props) {
   const user = useContext(UserContext)
-  const { writeChatMsg, variants, getFriendsList, firestore } = props
+  let isSender //styling prop for chatbubble
+  const { writeChatMsg, variants, getFriendsList, firestore, createDirectMsgRepo } = props
   const [messages, setMessages] = useState([])
   const [textInput, setTextInput] = useState("")
 
@@ -82,35 +83,24 @@ function Chat(props) {
   }
 
   useEffect(() => {
-    // console.log(user)
-    let chatMessages = []
-    const chatRef = firestore.collection('users').doc('chatMessages').collection("chats").orderBy("time", "asc").onSnapshot(snapshot => {
-      if (snapshot.size) {
-        chatMessages = []
-        snapshot.forEach(chat => chatMessages.push(chat.data()))
-        setMessages(chatMessages)
-        console.log(chatMessages)
-        updateScroll()
+    if (chatIdGlobal != "") { //prevents page from crashing
+      console.log(chatIdGlobal)
+      let chatMessages = []
+      const chatRef = firestore.collection("direct_messages").doc(chatIdGlobal).collection("messages_repo").orderBy("time", "asc").onSnapshot(snapshot => {
+        if (snapshot.size) { //if item is added to the database listener updates
+          chatMessages = []
+          snapshot.forEach(chat => chatMessages.push(chat.data()))
+          setMessages(chatMessages)
+          console.log(chatMessages)
+          updateScroll()
+        }
+      })
+      return () => {
+        chatRef()
       }
-    })
-    return () => {
-      chatRef()
     }
-  }, [setMessages, firestore])
+  }, [setMessages, firestore, user, chatIdGlobal])
 
-
-  // useEffect(() => {
-  //   const getMessages = async () => {
-  //     let chatMessages = []
-  //     // console.log(user)
-  //     const chatRef = readChatMsgs(user.uid).onSnapshot(snapshot => {
-  //       chatRef.forEach(chat => chatMessages.push(chat.data()))
-  //       setMessages(chatMessages)
-  //       updateScroll()
-  //     })
-  //     getMessages()
-  //   }
-  // }, [readChatMsgs, setMessages, useAuth])
 
   const handleUpdateSubmit = async e => {
     // if ENTER was pressed without SHIFT, prevent default
@@ -128,38 +118,43 @@ function Chat(props) {
           email: user.email
         }
         setTextInput("")
-        await writeChatMsg(newMsg)
+        await writeChatMsg(newMsg, chatIdGlobal, user.uid)
       } catch (error) {
         console.log(error.message)
+        alert(error.message)
       }
       return
     }
-  };
-
+  }
 
 
   return (
     <motion.div initial="out" animate="in" exit="out" variants={variants}>
       <React.Fragment>
         <StyledFriendsWrapper>
-          <FriendsList getFriendsList={getFriendsList} />
+          <FriendsList getFriendsList={getFriendsList} setMessages={setMessages} createDirectMsgRepo={createDirectMsgRepo} />
           <StyledComponentWrapper>
-            <StyledMsgWrapper>
-              {messages.map(message =>
+            <StyledChatWrapper>
 
-                <motion.div initial={{ scale: 0.5 }}
-                  animate={{ scale: 1 }}
-                  transition={{
-                    type: "spring",
-                    stiffness: 260,
-                    damping: 20
-                  }}>
-                  <ChatBubble chatMessage={message} />
-                </motion.div>
+              {
+                messages.map(message =>
 
-              )}
+                  <motion.div initial={{ scale: 0.5 }}
+                    animate={{ scale: 1 }}
+                    transition={{
+                      type: "spring",
+                      stiffness: 260,
+                      damping: 20
+                    }}>
+                    <ChatBubble
+                      chatMessage={message}
+                      sender={user.uid == message.userId}
+                    />
+                  </motion.div>
+
+                )}
               <StyledAnchor id='chat-box-end'>&nbsp;</StyledAnchor>
-            </StyledMsgWrapper>
+            </StyledChatWrapper>
             <StyledTextAreaWrapper>
 
               <textarea
@@ -173,7 +168,6 @@ function Chat(props) {
             </StyledTextAreaWrapper>
           </StyledComponentWrapper>
         </StyledFriendsWrapper>
-
       </React.Fragment>
     </motion.div>
   )
@@ -212,31 +206,89 @@ const StyledIconContainer = styled.div`
   `
 
 
+const StyledIconCircle = styled.div`
+  height:25px;
+  width:25px;
+  margin-right:15px;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  img{
+    border-radius:50%;
+    height:40px;
+    width:40px;
+  }
+`
+const StyledFriendsWrapper2 = styled.div`
+  width:100%;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+
+`
+const StyledContactWrapper = styled.div`
+    transition: all 0.5s ease-in-out;
+    display:${({ open }) => (open ? "flex" : "none")};
+    align-items:center;
+    border-radius:2px;
+    width:100%;
+    max-width:230px;
+    padding:10px;
+    margin:10px 0 0 16px;
+    background-color:white;
+    cursor:pointer;
+    h6{
+        color:grey;
+        margin:5px 0;
+        padding:0px;
+    }
+    span:hover{
+      background-color:#9a9797;
+    }
+`
+
 function FriendsList(props) {
 
   const user = useContext(UserContext)
-  const { getFriendsList } = props
+  const { getFriendsList, createDirectMsgRepo } = props
   const [open, setIsOpen] = useState(false)
-
   const [friends, setFriends] = useState([])
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     const handleFriendGet = async () => {
       let friendsArray = []
       const friendRef = await getFriendsList(user.uid)
       friendRef.forEach(friend => friendsArray.push(friend.data()))
-      const removeSelf = friendsArray.filter(friend => (friend.user != user.uid)) // add all user except yourself to friend list
-      setFriends(removeSelf)
+      const removeSelfArray = friendsArray.filter(friend => (friend.user != user.uid)) // add all user except yourself to friend list
+      setFriends(removeSelfArray)
     }
     handleFriendGet()
   }, [useAuth, user])
-  // const handleFriendGet = async () => {
-  //   let friendsArray= []
-  //   const friendRef = await getFriendsList(user.userId)
-  //   friendRef.forEach(friend => friendsArray.push(friend.data()))
-  //   setFriends(friendsArray)
-  //   console.log(friendsArray);
-  // }
+
+  const startChat = async (userId, receiverUid, receiverImgUrl, senderImgUrl) => {
+    console.log("values passed to startChat - userId =" + userId + " receiverUid = " + receiverUid + " senderImgUrl = " + senderImgUrl)
+    receiverIdGlobal = receiverUid // for access up tree 
+    if (userId < receiverUid) {
+      chatIdGlobal = receiverUid + userId
+    } else {
+      chatIdGlobal = userId + receiverUid
+    }
+    console.log("chatId =" + chatIdGlobal)
+    try {
+      const dmrObject = {
+        senderId: userId,
+        senderAvatar: senderImgUrl,
+        receiverId: receiverUid,
+        receiverAvatar: receiverImgUrl
+      }
+      await createDirectMsgRepo(chatIdGlobal, dmrObject)
+    } catch (error) {
+      console.log(error.message)
+      alert(error.message)
+      //need to make some sort of modal error for this
+    }
+    return
+  }
 
   return (
     <React.Fragment>
@@ -255,14 +307,25 @@ function FriendsList(props) {
               </div>
             </StyledIconContainer>
         }
-        <FriendTile friends={friends} open={open} user={user} />
+        <StyledFriendsWrapper2>
+          {friends.map(friend =>
+            <motion.div whileHover={{ scale: 1.03 }}>
+              <StyledContactWrapper open={open} onClick={e => startChat(user.uid, friend.uid, friend.avatar, user.photoURL)} >
+                <StyledIconCircle>
+                  <img src={friend.avatar || avatarIcon} alt="avatar" />
+                </StyledIconCircle>
+                <h6>{friend.email.split('@')[0]}</h6>
+              </StyledContactWrapper>
+            </motion.div>
+          )}
+        </StyledFriendsWrapper2>
       </StyledNav>
     </React.Fragment>
   );
 }
 
 FriendsList.propTypes = {
-  onClick: PropTypes.func.isRequired,
+  // onClick: PropTypes.func.isRequired,
 }
 
 export default Chat

@@ -100,7 +100,8 @@ function App() {
     readAppointments
   } = useDateSelect(firebase.firestore)
   const {
-    writeChatMsg
+    writeChatMsg,
+    createDirectMsgRepo
   } = useChat(firebase.firestore)
   const {
     getFriendsList
@@ -159,7 +160,7 @@ function App() {
             </Protected>
 
             <Protected authenticated={isAuthenticated} path="/chat">
-              <Chat firestore={firebase.firestore()} getFriendsList={getFriendsList} history={history} writeChatMsg={writeChatMsg} user={user} variants={variants} />
+              <Chat firestore={firebase.firestore()} getFriendsList={getFriendsList} history={history} writeChatMsg={writeChatMsg} user={user} variants={variants} createDirectMsgRepo={createDirectMsgRepo} />
             </Protected>
 
           </Switch>

@@ -5,9 +5,14 @@ function useFriendsList(fStore) {
     ref
       .get();
 
+  const createDirectMsgRepo = (chatId, userId, receiverImgUrl,senderImgUrl) =>
+    ref
+
+
 
   return {
-    getFriendsList
+    getFriendsList,
+    createDirectMsgRepo
   }
 
 }

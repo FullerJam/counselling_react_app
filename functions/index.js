@@ -11,19 +11,22 @@ const admin = require("firebase-admin");
  admin.initializeApp();
  const db = admin.firestore();
 
+
+
  exports.userCreated = functions.auth.user().onCreate(user => {
  return db
      .collection("users")
-     .doc()
+     .doc(user.uid)
      .set({
         isAdmin:false,
+        uid:user.uid,
         email:user.email,
-        user:user.uid,
         avatar:user.photoURL
     }, {merge:true})
 
  });
 
+ //deletes user db entry when user is removed from authorised accounts
  exports.userDeleted = functions.auth.user().onDelete(user => {
  return db
      .collection("users")

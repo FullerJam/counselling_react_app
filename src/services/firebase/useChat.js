@@ -1,15 +1,18 @@
 
 
 function useChat(fStore) {
-  const ref = fStore().collection('users');
+  const ref = fStore().collection('direct_messages');
 
-  const writeChatMsg = (newMsg) =>
+  const writeChatMsg = (newMsg, chatId) =>
     ref
-      .doc("chatMessages")
-      .collection("chats")
+      .doc(chatId)
+      .collection("messages_repo")
       .add(newMsg)
 
-
+  const createDirectMsgRepo = (chatId, dmrObject) =>
+    ref
+    .doc(chatId)
+    .set(dmrObject)
   // ref
   //   .doc(userId)
   //   .collection("chat")
@@ -23,7 +26,8 @@ function useChat(fStore) {
   //   .add(newMsg)
 
   return {
-    writeChatMsg
+    writeChatMsg,
+    createDirectMsgRepo
   }
 
 }
