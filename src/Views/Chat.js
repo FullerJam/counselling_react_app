@@ -17,8 +17,8 @@ const StyledFriendsWrapper = styled.div`
 const StyledChatWrapper = styled.div`
   padding-top:20px;
   background-color:#e5e5e5;
-  min-height:78vh;
-  max-height:78vh;
+  min-height:76.7vh;
+  max-height:76.7vh;
   width:100%;
   overflow-y:scroll;
   textarea{
@@ -177,7 +177,7 @@ Chat.propTypes = {
 const StyledNav = styled.div`
     transition: all 0.4s ease-in-out;
     transform: ${({ open }) => (open ? "translateX(0)" : "translateX(-88%)")};
-    min-height:90vh;
+    min-height:89.4vh;
     width:300px;
     max-height:65;
     overflow-y:${({ open }) => (open ? "scroll" : "visible")};
