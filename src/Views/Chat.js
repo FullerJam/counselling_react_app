@@ -17,8 +17,8 @@ const StyledFriendsWrapper = styled.div`
 const StyledChatWrapper = styled.div`
   padding-top:20px;
   background-color:#e5e5e5;
-  min-height:76.7vh;
-  max-height:76.7vh;
+  min-height:81.3vh;
+  max-height:81.3vh;
   width:100%;
   overflow-y:scroll;
   textarea{
@@ -36,9 +36,10 @@ const StyledChatWrapper = styled.div`
   }
 `
 const StyledTextAreaWrapper = styled.div`
+  /* position:absolute;
+  bottom:0; */
   background-color:#e5e5e5;
   width:100%;
-  height:10vh;
   display:flex;
   align-items:center;
   justify-content:center;
@@ -49,6 +50,9 @@ const StyledTextAreaWrapper = styled.div`
       width:100%;
       outline: none;
       resize: none;
+      z-index:100;
+      left: 0;
+      bottom: 0;
   }
   textarea::placeholder {
     font-size:16px;
@@ -69,6 +73,7 @@ const StyledAnchor = styled.div`
 `
 let receiverIdGlobal = ""
 let chatIdGlobal = ""
+let stateGlobal = false //used this to trigger messages to retrieve from useEffect
 
 function Chat(props) {
   const user = useContext(UserContext)
@@ -96,16 +101,10 @@ function Chat(props) {
         chatRef()
       }
     }
-  }, [setMessages, firestore, user, chatIdGlobal])
+  }, [stateGlobal, setMessages, firestore, chatIdGlobal])
 
 
   const handleUpdateSubmit = async e => {
-    // if ENTER was pressed without SHIFT, prevent default
-    // if(e.key === "Enter" && !e.shiftKey){
-    //   e.preventDefault()
-    //   return false
-    // }
-    // if textbox value isnt empty and ENTER is pressed
     if (textInput != "" && e.key === "Enter") {
       try {
         const newMsg = {
@@ -152,19 +151,20 @@ function Chat(props) {
                 )}
               <StyledAnchor id='chat-box-end'>&nbsp;</StyledAnchor>
             </StyledChatWrapper>
-            <StyledTextAreaWrapper>
-
-              <textarea
-                rows="3"
-                placeholder="Type something here..."
-                value={textInput}
-                onKeyPress={handleUpdateSubmit}
-                onChange={e => setTextInput(e.target.value)}
-              ></textarea>
-
-            </StyledTextAreaWrapper>
           </StyledComponentWrapper>
         </StyledFriendsWrapper>
+        <StyledTextAreaWrapper>
+
+          <textarea
+            id="messageBox"
+            rows="1"
+            placeholder="Type something here..."
+            value={textInput}
+            onKeyPress={handleUpdateSubmit}
+            onChange={e => setTextInput(e.target.value)}
+          ></textarea>
+
+        </StyledTextAreaWrapper>
       </React.Fragment>
     </motion.div>
   )
@@ -176,7 +176,7 @@ Chat.propTypes = {
 
 const StyledNav = styled.div`
     transition: all 0.4s ease-in-out;
-    transform: ${({ open }) => (open ? "translateX(0)" : "translateX(-88%)")};
+    transform: ${({ open }) => (open ? "translateX(0)" : "translateX(-87%)")};
     min-height:89.4vh;
     width:300px;
     max-height:65;
@@ -258,10 +258,10 @@ function FriendsList(props) {
       const friendRef = await getFriendsList(user.uid)
       friendRef.forEach(contact => friendsArray.push(contact.data())) // returns all users
       adminArray = friendsArray.filter(contact => contact.isAdmin != false)
-      const adminCheck = () =>{
+      const adminCheck = () => {
         return adminArray.some(contact => contact.isAdmin != false && contact.uid == user.uid); // returns an array of users that are admins && that are the current user id, should only return true if user is an admin 
       }
-      if (adminCheck()) { 
+      if (adminCheck()) {
         filteredFriendsArray = friendsArray.filter(contact => contact.uid != user.uid)
       } else {
         filteredFriendsArray = friendsArray.filter(contact => contact.uid != user.uid && contact.isAdmin != false)
@@ -274,8 +274,12 @@ function FriendsList(props) {
   }, [useAuth, user.uid])
 
   const startChat = async (userId, receiverUid, receiverImgUrl, senderImgUrl) => {
+    let node = document.getElementById('messageBox')
+    node.focus() // usability +
+    stateGlobal = !stateGlobal
+    // console.log(stateGlobal)
     setIsOpen(!open)
-    console.log("values passed to startChat - userId =" + userId + " receiverUid = " + receiverUid + " senderImgUrl = " + senderImgUrl)
+    // console.log("values passed to startChat - userId =" + userId + " receiverUid = " + receiverUid + " senderImgUrl = " + senderImgUrl)
     receiverIdGlobal = receiverUid // for access up tree 
     if (userId < receiverUid) {
       chatIdGlobal = receiverUid + userId
@@ -319,7 +323,7 @@ function FriendsList(props) {
         <StyledFriendsWrapper2>
           {friends.map(friend =>
             <motion.div whileHover={{ scale: 1.03 }}>
-              <StyledContactWrapper open={open} onClick={e => startChat(user.uid, friend.uid, friend.avatar, user.photoURL)} >
+              <StyledContactWrapper open={open} onClick={() => startChat(user.uid, friend.uid, friend.avatar, user.photoURL)} >
                 <StyledIconCircle>
                   <img src={friend.avatar || avatarIcon} alt="avatar" />
                 </StyledIconCircle>

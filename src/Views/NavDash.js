@@ -69,11 +69,18 @@ const TileContentWrapper2 = styled.div`
     height:100%;
     display:inline-block;
     color:white;
+    ul li {
+        font-size:1.5rem;
+        padding-bottom:10px;
+        list-style:none;
+    }
     @media(max-width:580px){
         display:none;
     }
-    ul{
-        padding-top:20px;
+    @media(max-width:1020px){
+        ul li {
+        font-size:1rem;
+    }
     }
 `
 
@@ -89,7 +96,7 @@ function NavDash(props) {
         <motion.div initial="out" animate="in" exit="out" variants={variants}>
             <ContentWrapper>
                 <StyledGreeting>
-                    Hi, {user.name || user.email}
+                    Hi, {user.displayName || user.email}
                 </StyledGreeting>
                 <p>Welcome back! <br /> Choose from one of the options below</p>
 
@@ -106,13 +113,10 @@ function NavDash(props) {
                             <TileContentWrapper2>
                                 <ul>
                                     <li>
-                                        Lorem, ipsum dolor sit amet consectetur adipisicing elit.
+                                        Appointments dashboard - See all booked appointments
                                     </li>
                                     <li>
-                                        Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-                                    </li>
-                                    <li>
-                                        Lorem, ipsum dolor sit amet consectetur adipisicing elit.
+                                        Book an appointment
                                     </li>
                                 </ul>
                             </TileContentWrapper2>
@@ -133,13 +137,13 @@ function NavDash(props) {
                         <TileContentWrapper2>
                             <ul>
                                 <li>
-                                    Lorem, ipsum dolor sit amet consectetur adipisicing elit.
+                                    Covid-19 and how it affects how we're operating
                                     </li>
                                 <li>
-                                    Lorem, ipsum dolor sit amet consectetur adipisicing elit.
+                                    Self Help Guides
                                     </li>
                                 <li>
-                                    Lorem, ipsum dolor sit amet consectetur adipisicing elit.
+                                    Organisations and helplines in Southampton
                                     </li>
                             </ul>
                         </TileContentWrapper2>
@@ -148,58 +152,33 @@ function NavDash(props) {
                 {/* </Link> */}
 
                 <Link to="/chat" style={{ textDecoration: 'none' }}>
-                <motion.div whileHover={{ scale: 1.05 }} >
-                    <MenuTile color={"#FFC43D"} >
-                        <TileContentWrapper>
+                    <motion.div whileHover={{ scale: 1.05 }} >
+                        <MenuTile color={"#FFC43D"} style={{ marginBottom: "50px" }}>
+                            <TileContentWrapper>
 
-                            <ImgContainer>
-                                <img src={urgentChatIcon} alt="chat icon" />
-                            </ImgContainer>
-                            <h4>URGENT CHAT</h4>
-                        </TileContentWrapper>
-                        <TileContentWrapper2>
-                            <ul>
-                                <li>
-                                    Lorem, ipsum dolor sit amet consectetur adipisicing elit.
+                                <ImgContainer>
+                                    <img src={urgentChatIcon} alt="chat icon" />
+                                </ImgContainer>
+                                <h4>URGENT CHAT</h4>
+                            </TileContentWrapper>
+                            <TileContentWrapper2>
+                                <ul>
+                                    <li>
+                                        Support from our counsellor live
                                     </li>
-                                <li>
-                                    Lorem, ipsum dolor sit amet consectetur adipisicing elit.
+                                    <li>
+                                        24-7 Availability
                                     </li>
-                                <li>
-                                    Lorem, ipsum dolor sit amet consectetur adipisicing elit.
+                                    <li>
+                                        Keep us up to date on your progress
                                     </li>
-                            </ul>
-                        </TileContentWrapper2>
-                    </MenuTile>
-                </motion.div>
+                                </ul>
+                            </TileContentWrapper2>
+                        </MenuTile>
+                    </motion.div>
                 </Link>
 
-                {/* <Link to="/requestforletter" style={{ textDecoration: 'none' }}> */}
-                <motion.div whileHover={{ scale: 1.05 }} >
-                    <MenuTile color={"#FD749B"} style={{ marginBottom: "50px" }}>
-                        <TileContentWrapper>
 
-                            <ImgContainer>
-                                <img src={requestIcon} alt="request letter icon" />
-                            </ImgContainer>
-                            <h4>REQUEST FOR LETTER</h4>
-                        </TileContentWrapper>
-                        <TileContentWrapper2>
-                            <ul>
-                                <li>
-                                    Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-                                    </li>
-                                <li>
-                                    Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-                                    </li>
-                                <li>
-                                    Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-                                    </li>
-                            </ul>
-                        </TileContentWrapper2>
-                    </MenuTile>
-                </motion.div>
-                {/* </Link> */}
             </ContentWrapper>
         </motion.div>
 

@@ -1,11 +1,7 @@
-import React, { useState } from 'react'
+import React from 'react'
 import styled from 'styled-components'
-import LoginForm from '../Components/LoginForm'
-import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
-
 import { motion } from "framer-motion"
-
 import signupimg from "../assets/signup.png"
 
 const StyledWrapper = styled.div`
@@ -36,21 +32,8 @@ const StyledLink = styled(Link)`
         }
     `
 
-function SignUp(props) {
-    const { createEmailUser, signInWithProvider, variants } = props;
-    const [error, setError] = useState();
-
-    const handleSubmit = async (data) => {
-        const { email, password } = data;
-        console.log(data);
-        try {
-            await createEmailUser(email, password);
-        } catch (error) {
-            setError(error.message);
-        }
-    }
-
-
+function MentalHealthAdvice() {
+  
     return (
         <motion.div initial="out" animate="in" exit="out" variants={variants}>
             <StyledWrapper>
@@ -58,11 +41,7 @@ function SignUp(props) {
                     <img src={signupimg} alt="people_waving" />
                 </StyledImg>
                 <StyledH3>Sign up today with your social account</StyledH3>
-                <LoginForm
-                    onSubmit={handleSubmit}
-                    serverError={error}
-                    text={"SIGN UP"}
-                />
+                
                 <StyledLink to="/login">
                     <h3>Already a member? - Login</h3>
                 </StyledLink>

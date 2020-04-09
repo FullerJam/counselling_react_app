@@ -44,6 +44,9 @@ const StyledWrapper = styled.div`
 `
 
 const StyledResponsive = styled.div`
+  display:flex;
+  align-items:flex-end;
+  flex-direction:column;
   font-size:14px;
   h6{
     margin:10px 10px 0 10px;
@@ -79,9 +82,8 @@ function Header(props) {
           <Back> <span onClick={handleHomeClick} style={{ cursor: "pointer" }}><span style={{ fontSize: "18px" }}>‹&nbsp;</span>Home</span> </Back>
         )}
         <StyledUserAvatar>
-
           <StyledResponsive>
-            <h6>{user.name || user.email} </h6> <span onClick={signOut} style={{ margin: "0 0 0 10px", cursor: "pointer", textDecoration: "underline" }}> logout </span>
+            <h6 style={{ margin: "0"}}>{user.displayName || user.email} </h6> <span onClick={signOut} style={{ cursor: "pointer", textDecoration: "underline" }}> Logout </span>
           </StyledResponsive>
 
           <img src={user.photoURL || avatarPlaceholder} alt="avatar" />
