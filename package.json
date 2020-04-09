@@ -27,7 +27,8 @@
     "test": "react-app-rewired start test",
     "eject": "react-scripts eject",
     "fb-cf-deploy": "firebase deploy --only functions",
-    "fb-host": "firebase deploy --only hosting"
+    "fb-host": "firebase deploy --only hosting",
+    "fb-s-rules": "firebase deploy --only firestore:rules"
   },
   "eslintConfig": {
     "extends": "react-app"

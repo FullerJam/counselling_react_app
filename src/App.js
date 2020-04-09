@@ -24,6 +24,7 @@ import ApptConfirmation from "./Views/ApptConfirmation"
 import Chat from "./Views/Chat"
 import NavDash from "./Views/NavDash"
 import Login from "./Views/Login"
+import MentalHealthAdvice from "./Views/MentalHealthAdvice"
 import Appointments from "./Views/Appointments"
 import DateSelect from "./Views/DateSelect"
 import SignUp from "./Views/SignUp.js"
@@ -60,23 +61,23 @@ function Protected({ authenticated, children, ...rest }) {
 }
 
 function RedirectRoute({ authenticated, children, ...rest }) {
-    
+
   return (
-      <Route
-          {...rest}
-          render={({ location }) =>
-              !authenticated ? (
-                  children
-              ) : (
-                      <Redirect
-                          to={{
-                              pathname: initAttemptedRoute,
-                              state: { from: location }
-                          }}
-                      />
-                  )
-          }
-      />
+    <Route
+      {...rest}
+      render={({ location }) =>
+        !authenticated ? (
+          children
+        ) : (
+            <Redirect
+              to={{
+                pathname: initAttemptedRoute,
+                state: { from: location }
+              }}
+            />
+          )
+      }
+    />
   );
 }
 
@@ -106,7 +107,7 @@ function App() {
   const {
     getFriendsList
   } = useFriendsList(firebase.firestore)
-  
+
 
   const location = useLocation()
 
@@ -161,6 +162,10 @@ function App() {
 
             <Protected authenticated={isAuthenticated} path="/chat">
               <Chat firestore={firebase.firestore()} getFriendsList={getFriendsList} history={history} writeChatMsg={writeChatMsg} user={user} variants={variants} createDirectMsgRepo={createDirectMsgRepo} />
+            </Protected>
+
+            <Protected authenticated={isAuthenticated} path="/mental_health_advice">
+              <MentalHealthAdvice variants={variants}/>
             </Protected>
 
           </Switch>

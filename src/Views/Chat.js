@@ -73,7 +73,7 @@ const StyledAnchor = styled.div`
 `
 let receiverIdGlobal = ""
 let chatIdGlobal = ""
-let stateGlobal = false //used this to trigger messages to retrieve from useEffect
+let stateGlobal = false //used this to trigger messages to retrieve from useEffect, didnt work
 
 function Chat(props) {
   const user = useContext(UserContext)
@@ -110,7 +110,7 @@ function Chat(props) {
         const newMsg = {
           msg: textInput,
           time: new Date(),
-          userId: user.uid,
+          senderId: user.uid,
           email: user.email
         }
         setTextInput("")
