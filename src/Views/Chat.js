@@ -256,15 +256,15 @@ function FriendsList(props) {
       let adminArray = []
       let filteredFriendsArray = []
       const friendRef = await getFriendsList(user.uid)
-      friendRef.forEach(friend => friendsArray.push(friend.data())) // returns all users
-      adminArray = friendsArray.filter(friend => friend.isAdmin != false)
+      friendRef.forEach(contact => friendsArray.push(contact.data())) // returns all users
+      adminArray = friendsArray.filter(contact => contact.isAdmin != false)
       const adminCheck = () =>{
-        return adminArray.some(element => element.isAdmin != false && element.uid == user.uid); // returns an array of users that are admins && that are the current user id, should only return true if user is an admin 
+        return adminArray.some(contact => contact.isAdmin != false && contact.uid == user.uid); // returns an array of users that are admins && that are the current user id, should only return true if user is an admin 
       }
       if (adminCheck()) { 
-        filteredFriendsArray = friendsArray.filter(friend => friend.uid != user.uid)
+        filteredFriendsArray = friendsArray.filter(contact => contact.uid != user.uid)
       } else {
-        filteredFriendsArray = friendsArray.filter(friend => friend.uid != user.uid && friend.isAdmin != false)
+        filteredFriendsArray = friendsArray.filter(contact => contact.uid != user.uid && contact.isAdmin != false)
         // add all user except yourself to friend list
       }
       // console.log(filteredFriendsArray)

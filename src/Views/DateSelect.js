@@ -79,7 +79,7 @@ function DateSelect(props) {
                             stiffness: 260,
                             damping: 20
                         }}>
-                        <Calendar minDate={moment().add(1, 'days').toDate()} onChange={onChange} />
+                        <Calendar minDate={moment().add(1, 'days').toDate()} onChange={onChange}/>
                     </motion.div>
                 </div>
                 <p style={{ marginBottom:"0"}}>Appointment date set to </p>
