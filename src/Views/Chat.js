@@ -1,4 +1,4 @@
-import React, { useEffect, useLayoutEffect, useRef, useState, useContext } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import ChatBubble from '../Components/ChatBubble'
@@ -17,8 +17,8 @@ const StyledFriendsWrapper = styled.div`
 const StyledChatWrapper = styled.div`
   padding-top:20px;
   background-color:#e5e5e5;
-  min-height:73vh;
-  max-height:73vh;
+  min-height:78vh;
+  max-height:78vh;
   width:100%;
   overflow-y:scroll;
   textarea{
@@ -72,7 +72,6 @@ let chatIdGlobal = ""
 
 function Chat(props) {
   const user = useContext(UserContext)
-  let isSender //styling prop for chatbubble
   const { writeChatMsg, variants, getFriendsList, firestore, createDirectMsgRepo } = props
   const [messages, setMessages] = useState([])
   const [textInput, setTextInput] = useState("")
@@ -84,14 +83,12 @@ function Chat(props) {
 
   useEffect(() => {
     if (chatIdGlobal != "") { //prevents page from crashing
-      console.log(chatIdGlobal)
       let chatMessages = []
       const chatRef = firestore.collection("direct_messages").doc(chatIdGlobal).collection("messages_repo").orderBy("time", "asc").onSnapshot(snapshot => {
         if (snapshot.size) { //if item is added to the database listener updates
           chatMessages = []
           snapshot.forEach(chat => chatMessages.push(chat.data()))
           setMessages(chatMessages)
-          console.log(chatMessages)
           updateScroll()
         }
       })
@@ -121,7 +118,7 @@ function Chat(props) {
         await writeChatMsg(newMsg, chatIdGlobal, user.uid)
       } catch (error) {
         console.log(error.message)
-        alert(error.message)
+        alert("Error: Please select a user from the contacts menu on the left hand side of the screen before sending a message")
       }
       return
     }
@@ -180,7 +177,7 @@ Chat.propTypes = {
 const StyledNav = styled.div`
     transition: all 0.4s ease-in-out;
     transform: ${({ open }) => (open ? "translateX(0)" : "translateX(-88%)")};
-    min-height:86vh;
+    min-height:90vh;
     width:300px;
     max-height:65;
     overflow-y:${({ open }) => (open ? "scroll" : "visible")};
@@ -204,7 +201,6 @@ const StyledIconContainer = styled.div`
     }
     margin-right:1px;
   `
-
 
 const StyledIconCircle = styled.div`
   height:25px;
@@ -234,7 +230,7 @@ const StyledContactWrapper = styled.div`
     width:100%;
     max-width:230px;
     padding:10px;
-    margin:10px 0 0 16px;
+    margin:5px 0 0 16px;
     background-color:white;
     cursor:pointer;
     h6{
@@ -257,15 +253,28 @@ function FriendsList(props) {
   useEffect(() => {
     const handleFriendGet = async () => {
       let friendsArray = []
+      let adminArray = []
+      let filteredFriendsArray = []
       const friendRef = await getFriendsList(user.uid)
-      friendRef.forEach(friend => friendsArray.push(friend.data()))
-      const removeSelfArray = friendsArray.filter(friend => (friend.user != user.uid)) // add all user except yourself to friend list
-      setFriends(removeSelfArray)
+      friendRef.forEach(friend => friendsArray.push(friend.data())) // returns all users
+      adminArray = friendsArray.filter(friend => friend.isAdmin != false)
+      const adminCheck = () =>{
+        return adminArray.some(element => element.isAdmin != false && element.uid == user.uid); // returns an array of users that are admins && that are the current user id, should only return true if user is an admin 
+      }
+      if (adminCheck()) { 
+        filteredFriendsArray = friendsArray.filter(friend => friend.uid != user.uid)
+      } else {
+        filteredFriendsArray = friendsArray.filter(friend => friend.uid != user.uid && friend.isAdmin != false)
+        // add all user except yourself to friend list
+      }
+      // console.log(filteredFriendsArray)
+      setFriends(filteredFriendsArray)
     }
     handleFriendGet()
-  }, [useAuth, user])
+  }, [useAuth, user.uid])
 
   const startChat = async (userId, receiverUid, receiverImgUrl, senderImgUrl) => {
+    setIsOpen(!open)
     console.log("values passed to startChat - userId =" + userId + " receiverUid = " + receiverUid + " senderImgUrl = " + senderImgUrl)
     receiverIdGlobal = receiverUid // for access up tree 
     if (userId < receiverUid) {
@@ -302,7 +311,7 @@ function FriendsList(props) {
             </StyledIconContainer>
             :
             <StyledIconContainer onClick={() => setIsOpen(!open)}>
-              <div style={{ padding: "10px", cursor: "pointer" }}>
+              <div style={{ padding: "5px 10px 0 10px", cursor: "pointer" }}>
                 ⛌
               </div>
             </StyledIconContainer>

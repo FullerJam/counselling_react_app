@@ -56,12 +56,7 @@ const StyledTime = styled.p`
 
 function ChatBubble(props) {
 
-
     const { chatMessage, sender } = props
-
-
-
-
 
     return (
         <React.Fragment>
@@ -80,7 +75,7 @@ function ChatBubble(props) {
                 </StyledSpan> :
                 <StyledSpan sender={sender}>
                     <StyledChat sender={sender}>
-                        <label>{chatMessage.email}</label>
+                        <label>{chatMessage.email.split('@')[0]}</label>{/*for some reason doesnt work, but worked for contact list*/}
                         <p>{chatMessage.msg}</p>
                         <StyledTime>
                             <div>

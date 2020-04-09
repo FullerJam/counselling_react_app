@@ -144,7 +144,7 @@ function App() {
             </RedirectRoute>
 
             <RedirectRoute authenticated={isAuthenticated} path="/sign_up" >
-              <SignUp signInWithProvider={signInWithProvider} createEmailUser={createEmailUser} variants={variants} />
+              <SignUp createEmailUser={createEmailUser} variants={variants} />
             </RedirectRoute>
 
             <Protected authenticated={isAuthenticated} path="/appointments">
@@ -164,7 +164,7 @@ function App() {
             </Protected>
 
           </Switch>
-          {location.pathname !== "/sign_up" && location.pathname !== "/login" && (
+          {location.pathname !== "/sign_up" && location.pathname !== "/login" && location.pathname !== "/chat" && (
             <Footer />
           )}
         </AnimatePresence>

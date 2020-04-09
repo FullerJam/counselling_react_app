@@ -37,7 +37,7 @@ const StyledLink = styled(Link)`
     `
 
 function SignUp(props) {
-    const { createEmailUser, variants } = props;
+    const { createEmailUser, signInWithProvider, variants } = props;
     const [error, setError] = useState();
 
     const handleSubmit = async (data) => {
@@ -49,7 +49,6 @@ function SignUp(props) {
             setError(error.message);
         }
     }
-
 
 
     return (
