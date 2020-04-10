@@ -1,0 +1,4 @@
+match  /direct_messages/{document=**} {
+    allow read : if request.auth.uid != null;
+    allow write : if request.resource.data.senderId == request.auth.uid;
+  }

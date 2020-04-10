@@ -185,4 +185,8 @@ function NavDash(props) {
     )
 }
 
+NavDash.defaultProps = {
+    variants: PropTypes.object.isRequired
+};
+
 export default NavDash;

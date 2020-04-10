@@ -57,7 +57,7 @@ function Header(props) {
   const location = useLocation();
 
   const { history, user, signOut } = props
-
+  console.log(history)
   const handleClick = () => {
     history.goBack();
   }

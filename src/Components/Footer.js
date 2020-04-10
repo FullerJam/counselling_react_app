@@ -1,7 +1,5 @@
 import React from "react"
 import { useLocation } from "react-router-dom"
-import theme from "../config/theme.js"
-import PropTypes from "prop-types"
 import styled from "styled-components"
 import chatIcon from "../assets/chat_icon.svg"
 import { Link } from "react-router-dom"
@@ -24,7 +22,7 @@ const StyledIcon = styled.div`
     width:25px;
     height:25px;
 `
-function Footer(props) {
+function Footer() {
     const location = useLocation();
 
     return (
@@ -40,7 +38,5 @@ function Footer(props) {
     );
 }
 
-Footer.propTypes = {
-};
 
 export default Footer;

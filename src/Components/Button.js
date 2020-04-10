@@ -2,7 +2,6 @@ import React from "react"
 import theme from "../config/theme.js"
 import PropTypes from "prop-types"
 import styled from "styled-components"
-import { motion } from "framer-motion"
 
 
 const StyledButton = styled.button`
@@ -40,6 +39,13 @@ function Button(props) {
 }
 
 Button.propTypes = {
+    onClick: PropTypes.func.isRequired,
+    m: PropTypes.string,
+    text:PropTypes.string
+};
+Button.defaultProps = {
+    m: "0",
+    text: "Login"
 };
 
 export default Button;

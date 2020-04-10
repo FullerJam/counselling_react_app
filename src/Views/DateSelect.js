@@ -1,14 +1,13 @@
-import React, { useState } from 'react'
-import { AnimatePresence, motion } from "framer-motion"
+import React, { useState, useContext } from 'react'
+import { motion } from "framer-motion"
 import PropTypes from 'prop-types'
 import Calendar from 'react-calendar'
 import 'react-calendar/dist/Calendar.css'
 import styled from "styled-components"
 import Button from "../Components/Button"
-import { useForm } from "react-hook-form";
-import * as yup from "yup";
 import moment from "moment";
-
+//context
+import UserContext from "../config/user-context"
 
 import theme from "../config/theme.js"
 
@@ -35,9 +34,9 @@ const calendarStyle = {
 }
 
 function DateSelect(props) {
-
+    const user = useContext(UserContext)
     const [date, setDate] = useState(moment().add(1, 'days').toDate())
-    const { variants, user, createAppointment, history } = props
+    const { variants, createAppointment } = props
 
 
     const onChange = date => {
@@ -91,9 +90,10 @@ function DateSelect(props) {
     )
 }
 
-DateSelect.propTypes = {
-
-}
+DateSelect.defaultProps = {
+    variants: PropTypes.object.isRequired,
+    createAppointment: PropTypes.func.isRequired
+};
 
 export default DateSelect
 

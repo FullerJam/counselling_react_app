@@ -92,6 +92,8 @@ function ChatBubble(props) {
 }
 
 ChatBubble.propTypes = {
+    chatMessage:PropTypes.object.isRequired,
+    sender:PropTypes.bool.isRequired
 };
 
 export default ChatBubble;

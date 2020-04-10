@@ -108,9 +108,6 @@ function MentalHealthAdvice(props) {
     )
 }
 
-MentalHealthAdvice.propTypes = {
-
-}
 
 export default MentalHealthAdvice
 

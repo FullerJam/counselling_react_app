@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from 'react'
+import React, { useEffect, useState, useContext, useRef } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import ChatBubble from '../Components/ChatBubble'
@@ -101,7 +101,7 @@ function Chat(props) {
         chatRef()
       }
     }
-  }, [stateGlobal, setMessages, firestore, chatIdGlobal])
+  }, [stateGlobal, setMessages, firestore, chatIdGlobal, user])
 
 
   const handleUpdateSubmit = async e => {
@@ -144,10 +144,10 @@ function Chat(props) {
                     }}>
                     <ChatBubble
                       chatMessage={message}
-                      sender={user.uid == message.userId}
+                      sender={user.uid == message.senderId}
                     />
                   </motion.div>
-
+                  
                 )}
               <StyledAnchor id='chat-box-end'>&nbsp;</StyledAnchor>
             </StyledChatWrapper>
@@ -169,9 +169,13 @@ function Chat(props) {
     </motion.div>
   )
 }
-
+//writeChatMsg, variants, getFriendsList, firestore, createDirectMsgRepo
 Chat.propTypes = {
-
+  getFriendsList:PropTypes.func.isRequired,
+  createDirectMsgRepo:PropTypes.func.isRequired,
+  variants:PropTypes.object.isRequired,
+  writeChatMsg:PropTypes.func.isRequired,
+  firestore:PropTypes.func.isRequired
 }
 
 const StyledNav = styled.div`
@@ -338,7 +342,8 @@ function FriendsList(props) {
 }
 
 FriendsList.propTypes = {
-  // onClick: PropTypes.func.isRequired,
+  getFriendsList:PropTypes.func.isRequired,
+  createDirectMsgRepo:PropTypes.func.isRequired
 }
 
 export default Chat

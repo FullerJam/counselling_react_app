@@ -62,8 +62,8 @@ function ApptConfirmation(props) {
     )
 }
 
-ApptConfirmation.propTypes = {
-
+ApptConfirmation.defaultProps = {
+    variants: PropTypes.object.isRequired
 }
 
 export default ApptConfirmation

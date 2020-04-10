@@ -96,7 +96,7 @@ function LoginForm(props) {
 
   let firstButtonText
 
-  if (useLocation().pathname == "/sign_up") {
+  if (useLocation().pathname === "/sign_up") {
     firstButtonText = "Sign up"
   } else {
     firstButtonText = "Sign in"
