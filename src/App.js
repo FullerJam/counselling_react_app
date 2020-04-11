@@ -1,4 +1,4 @@
-import React from "react"
+import React, {useEffect} from "react"
 import theme from "./config/theme.js"
 import { ThemeProvider } from "styled-components"
 import GlobalStyles from "./config/GlobalStyles"
@@ -83,6 +83,15 @@ function RedirectRoute({ authenticated, children, ...rest }) {
 
 function App() {
 
+
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+
+
+
   if (firebase.apps.length === 0) {
     firebase.initializeApp(firebaseConfig);
   }
@@ -165,7 +174,7 @@ function App() {
             </Protected>
 
             <Protected authenticated={isAuthenticated} path="/mental_health_advice">
-              <MentalHealthAdvice variants={variants}/>
+              <MentalHealthAdvice variants={variants} />
             </Protected>
 
           </Switch>

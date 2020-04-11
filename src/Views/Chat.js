@@ -9,6 +9,7 @@ import UserContext from "../config/user-context"
 
 import avatarIcon from "../assets/avatar_placeholder.png"
 import contactIcon from "../assets/contactsIcon.svg"
+// import notification from "../assets/notification.svg"
 
 const StyledFriendsWrapper = styled.div`
   display:flex;
@@ -147,7 +148,7 @@ function Chat(props) {
                       sender={user.uid == message.senderId}
                     />
                   </motion.div>
-                  
+
                 )}
               <StyledAnchor id='chat-box-end'>&nbsp;</StyledAnchor>
             </StyledChatWrapper>
@@ -171,11 +172,11 @@ function Chat(props) {
 }
 //writeChatMsg, variants, getFriendsList, firestore, createDirectMsgRepo
 Chat.propTypes = {
-  getFriendsList:PropTypes.func.isRequired,
-  createDirectMsgRepo:PropTypes.func.isRequired,
-  variants:PropTypes.object.isRequired,
-  writeChatMsg:PropTypes.func.isRequired,
-  firestore:PropTypes.func.isRequired
+  getFriendsList: PropTypes.func.isRequired,
+  createDirectMsgRepo: PropTypes.func.isRequired,
+  variants: PropTypes.object.isRequired,
+  writeChatMsg: PropTypes.func.isRequired,
+  firestore: PropTypes.func.isRequired
 }
 
 const StyledNav = styled.div`
@@ -342,8 +343,8 @@ function FriendsList(props) {
 }
 
 FriendsList.propTypes = {
-  getFriendsList:PropTypes.func.isRequired,
-  createDirectMsgRepo:PropTypes.func.isRequired
+  getFriendsList: PropTypes.func.isRequired,
+  createDirectMsgRepo: PropTypes.func.isRequired
 }
 
 export default Chat
