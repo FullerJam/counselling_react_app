@@ -57,7 +57,6 @@ function Header(props) {
   const location = useLocation();
 
   const { history, user, signOut } = props
-  console.log(history)
   const handleClick = () => {
     history.goBack();
   }
@@ -68,17 +67,17 @@ function Header(props) {
   return (
     <React.Fragment>
       <StyledWrapper>
-      {location.pathname == "/" &&  (
+      {location.pathname === "/" &&  (
           <Back> </Back>
         )}
         {location.pathname !== "/chat" && location.pathname !== "/" && location.pathname !== "/appt_confirmation" && (
           <Back> <span onClick={handleClick} style={{ cursor: "pointer" }}><span style={{ fontSize: "18px" }}>‹&nbsp;</span>Back</span> </Back>
         )}
-        {location.pathname == "/appt_confirmation" && (
+        {location.pathname === "/appt_confirmation" && (
           <Back> <span onClick={handleHomeClick} style={{ cursor: "pointer" }}><span style={{ fontSize: "18px" }}>‹&nbsp;</span>Home</span> </Back>
         )}
         {/* had to have two for home button because || didnt work for some reason */}
-        {location.pathname == "/chat" && (
+        {location.pathname === "/chat" && (
           <Back> <span onClick={handleHomeClick} style={{ cursor: "pointer" }}><span style={{ fontSize: "18px" }}>‹&nbsp;</span>Home</span> </Back>
         )}
         <StyledUserAvatar>
@@ -94,6 +93,9 @@ function Header(props) {
 }
 
 Header.propTypes = {
+  user: PropTypes.object.isRequired,
+  signOut:PropTypes.func.isRequired,
+  history:PropTypes.object.isRequired
 }
 
 export default Header

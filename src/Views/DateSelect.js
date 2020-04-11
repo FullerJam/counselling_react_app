@@ -54,10 +54,11 @@ function DateSelect(props) {
         }
         try {
             await createAppointment(appt)
-            window.location = "/appt_confirmation"
         } catch (error) {
+            alert(error)
             console.log(error);
         }
+        window.location = "/appt_confirmation"
     }
 
     const reformattedDate = date.toISOString().split("T")[0].split("-")

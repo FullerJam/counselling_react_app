@@ -146,40 +146,40 @@ function App() {
           <Switch>
 
             <Protected authenticated={isAuthenticated} exact path="/">
-              <NavDash variants={variants} />
+              <NavDash variants={variants} key="1" />
             </Protected>
 
             <RedirectRoute authenticated={isAuthenticated} path="/login">
-              <Login signInWithProvider={signInWithProvider} signInEmailUser={signInEmailUser} location={location} variants={variants} />
+              <Login signInWithProvider={signInWithProvider} signInEmailUser={signInEmailUser} location={location} variants={variants} key="2" />
             </RedirectRoute>
 
             <RedirectRoute authenticated={isAuthenticated} path="/sign_up" >
-              <SignUp createEmailUser={createEmailUser} variants={variants} />
+              <SignUp createEmailUser={createEmailUser} variants={variants} key="3" />
             </RedirectRoute>
 
             <Protected authenticated={isAuthenticated} path="/appointments">
-              <Appointments variants={variants} readAppointments={readAppointments} />
+              <Appointments variants={variants} readAppointments={readAppointments} key="4" />
             </Protected>
 
             <Protected authenticated={isAuthenticated} path="/select_date">
-              <DateSelect createAppointment={createAppointment} history={history} user={user} variants={variants} />
+              <DateSelect createAppointment={createAppointment} history={history} user={user} variants={variants} key="5"/>
             </Protected>
 
             <Protected authenticated={isAuthenticated} path="/appt_confirmation">
-              <ApptConfirmation history={history} user={user} variants={variants} />
+              <ApptConfirmation history={history} user={user} variants={variants} key="6"/>
             </Protected>
 
             <Protected authenticated={isAuthenticated} path="/chat">
-              <Chat firestore={firebase.firestore()} getFriendsList={getFriendsList} history={history} writeChatMsg={writeChatMsg} user={user} variants={variants} createDirectMsgRepo={createDirectMsgRepo} />
+              <Chat firestore={firebase.firestore()} getFriendsList={getFriendsList} history={history} writeChatMsg={writeChatMsg} user={user} variants={variants} key="7" createDirectMsgRepo={createDirectMsgRepo} />
             </Protected>
 
             <Protected authenticated={isAuthenticated} path="/mental_health_advice">
-              <MentalHealthAdvice variants={variants} />
+              <MentalHealthAdvice variants={variants} key="8" />
             </Protected>
 
           </Switch>
           {location.pathname !== "/sign_up" && location.pathname !== "/login" && location.pathname !== "/chat" && (
-            <Footer />
+            <Footer key="9"/>
           )}
         </AnimatePresence>
       </UserContext.Provider>

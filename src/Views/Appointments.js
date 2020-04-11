@@ -88,8 +88,8 @@ function Appointments(props) {
             let appts = []
             allAppointments.forEach(appointment => appts.push({ ...appointment.data(), ...{ id: appointment.id } }))
             const date = new Date()
-            pastAppts = appts.map(appointment => moment(appointment.date).isBefore(date, 'day'))
-            setPastApptTotal(pastAppts.filter(Boolean).length)
+            pastAppts = appts.map(appointment => moment(appointment.date).isBefore(date, 'day')) //returns array of booleans
+            setPastApptTotal(pastAppts.filter(Boolean).length) // filter booleans to see total number
             setAppointments(appts) 
             // console.log(appts)           
         }

@@ -79,8 +79,10 @@ function Login(props) {
 }
 
 Login.propTypes = {
-    // signInEmailUser: PropTypes.func.isRequired,
-    // signInWithProvider: PropTypes.func.isRequired
+    signInEmailUser: PropTypes.func.isRequired,
+    signInWithProvider: PropTypes.func.isRequired,
+    variants: PropTypes.object.isRequired,
+    
 }
 
 export default Login

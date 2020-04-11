@@ -10,7 +10,6 @@ import UserContext from "../config/user-context"
 //icons
 import calendarIcon from "../assets/calendar_icon.svg"
 import mentalHealthIcon from "../assets/mental_health_icon.svg"
-import requestIcon from "../assets/request_icon.svg"
 import urgentChatIcon from "../assets/urgent_chat_icon.svg"
 
 const ImgContainer = styled.div`
@@ -71,7 +70,7 @@ const TileContentWrapper2 = styled.div`
     color:white;
     ul li {
         font-size:1.5rem;
-        padding-bottom:10px;
+        padding-bottom:15px;
         list-style:none;
     }
     @media(max-width:580px){

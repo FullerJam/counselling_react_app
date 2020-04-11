@@ -27,16 +27,6 @@ const StyledH3 = styled.h3`
     color: ${({ theme }) => theme.colors.pink};
   `;
 
-const StyledLink = styled(Link)`
-        text-align: center;
-        text-decoration: none;
-        h3{
-            color:${({ theme }) => theme.colors.pink};
-        }
-        h3:hover{
-            color:#e06588;
-        }
-    `
 
 function MentalHealthAdvice(props) {
     const { variants } = props

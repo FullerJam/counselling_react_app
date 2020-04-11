@@ -1,5 +1,4 @@
 import React from "react"
-import { useLocation } from "react-router-dom"
 import styled from "styled-components"
 import chatIcon from "../assets/chat_icon.svg"
 import { Link } from "react-router-dom"
@@ -23,7 +22,6 @@ const StyledIcon = styled.div`
     height:25px;
 `
 function Footer() {
-    const location = useLocation();
 
     return (
         <div>

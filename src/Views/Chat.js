@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext, useRef } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import ChatBubble from '../Components/ChatBubble'
@@ -72,7 +72,7 @@ const StyledAnchor = styled.div`
   overflow-anchor: auto;
   height:1px;
 `
-let receiverIdGlobal = ""
+let receiverIdGlobal = "" // declared so useEffect has access to value in chat component for creating collection for both users messages
 let chatIdGlobal = ""
 let stateGlobal = false //used this to trigger messages to retrieve from useEffect, didnt work
 
@@ -88,7 +88,7 @@ function Chat(props) {
   }
 
   useEffect(() => {
-    if (chatIdGlobal != "") { //prevents page from crashing
+    if (chatIdGlobal !== "") { //prevents page from crashing
       let chatMessages = []
       const chatRef = firestore.collection("direct_messages").doc(chatIdGlobal).collection("messages_repo").orderBy("time", "asc").onSnapshot(snapshot => {
         if (snapshot.size) { //if item is added to the database listener updates
@@ -102,11 +102,11 @@ function Chat(props) {
         chatRef()
       }
     }
-  }, [stateGlobal, setMessages, firestore, chatIdGlobal, user])
+  }, [setMessages, firestore, user])
 
 
   const handleUpdateSubmit = async e => {
-    if (textInput != "" && e.key === "Enter") {
+    if (textInput !== "" && e.key === "Enter") {
       try {
         const newMsg = {
           msg: textInput,
@@ -145,7 +145,7 @@ function Chat(props) {
                     }}>
                     <ChatBubble
                       chatMessage={message}
-                      sender={user.uid == message.senderId}
+                      sender={user.uid === message.senderId}
                     />
                   </motion.div>
 
@@ -176,7 +176,7 @@ Chat.propTypes = {
   createDirectMsgRepo: PropTypes.func.isRequired,
   variants: PropTypes.object.isRequired,
   writeChatMsg: PropTypes.func.isRequired,
-  firestore: PropTypes.func.isRequired
+  firestore: PropTypes.object.isRequired
 }
 
 const StyledNav = styled.div`
@@ -262,14 +262,14 @@ function FriendsList(props) {
       let filteredFriendsArray = []
       const friendRef = await getFriendsList(user.uid)
       friendRef.forEach(contact => friendsArray.push(contact.data())) // returns all users
-      adminArray = friendsArray.filter(contact => contact.isAdmin != false)
+      adminArray = friendsArray.filter(contact => contact.isAdmin !== false)
       const adminCheck = () => {
-        return adminArray.some(contact => contact.isAdmin != false && contact.uid == user.uid); // returns an array of users that are admins && that are the current user id, should only return true if user is an admin 
+        return adminArray.some(contact => contact.isAdmin !== false && contact.uid === user.uid); // returns an array of users that are admins && that are the current user id, should only return true if user is an admin 
       }
       if (adminCheck()) {
-        filteredFriendsArray = friendsArray.filter(contact => contact.uid != user.uid)
+        filteredFriendsArray = friendsArray.filter(contact => contact.uid !== user.uid)
       } else {
-        filteredFriendsArray = friendsArray.filter(contact => contact.uid != user.uid && contact.isAdmin != false)
+        filteredFriendsArray = friendsArray.filter(contact => contact.uid !== user.uid && contact.isAdmin !== false)
         // add all user except yourself to friend list
       }
       // console.log(filteredFriendsArray)

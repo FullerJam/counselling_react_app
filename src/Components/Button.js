@@ -39,7 +39,7 @@ function Button(props) {
 }
 
 Button.propTypes = {
-    onClick: PropTypes.func.isRequired,
+    onClick: PropTypes.func,
     m: PropTypes.string,
     text:PropTypes.string
 };

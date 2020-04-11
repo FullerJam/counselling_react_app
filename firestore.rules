@@ -3,8 +3,8 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
     match /appointments/{appointment} {
-      allow read: if request.resource.data.userId == request.auth.uid; 
-      allow write : if request.resource.data.userId == request.auth.uid;   // users can only check themselves in
+      allow read: if request.auth.uid != null; //previous rule was the same as below 
+      allow write : if request.resource.data.userId == request.auth.uid;   // users can only read/write their own appointments
     }
     match  /users/{user} {
     allow read : if request.auth.uid != null;

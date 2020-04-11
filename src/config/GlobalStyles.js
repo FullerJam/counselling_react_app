@@ -1,7 +1,6 @@
 import { createGlobalStyle } from 'styled-components'
 
 const GlobalStyles = createGlobalStyle`
-@import url('https://fonts.googleapis.com/css?family=Poppins&display=swap');
 
 body {
     font-family: ${({theme}) => theme.typography.font};
