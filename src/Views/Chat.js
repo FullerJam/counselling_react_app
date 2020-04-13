@@ -83,8 +83,8 @@ function Chat(props) {
   const [textInput, setTextInput] = useState("")
 
   const updateScroll = () => {
-    let node = document.getElementById('chat-box-end')
-    node.scrollIntoView();
+    let div = document.getElementById('chat-box-end')
+    div.scrollIntoView();
   }
 
   useEffect(() => {
@@ -102,7 +102,7 @@ function Chat(props) {
         chatRef()
       }
     }
-  }, [setMessages, firestore, user])
+  }, [setMessages, firestore, user, chatIdGlobal])
 
 
   const handleUpdateSubmit = async e => {
@@ -260,6 +260,7 @@ function FriendsList(props) {
       let friendsArray = []
       let adminArray = []
       let filteredFriendsArray = []
+
       const friendRef = await getFriendsList(user.uid)
       friendRef.forEach(contact => friendsArray.push(contact.data())) // returns all users
       adminArray = friendsArray.filter(contact => contact.isAdmin !== false)
@@ -276,7 +277,7 @@ function FriendsList(props) {
       setFriends(filteredFriendsArray)
     }
     handleFriendGet()
-  }, [useAuth, user.uid])
+  }, [useAuth, user])
 
   const startChat = async (userId, receiverUid, receiverImgUrl, senderImgUrl) => {
     let node = document.getElementById('messageBox')
