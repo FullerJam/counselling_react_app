@@ -72,8 +72,7 @@ const StyledAnchor = styled.div`
   overflow-anchor: auto;
   height:1px;
 `
-let receiverIdGlobal = "" // declared so useEffect has access to value in chat component for creating collection for both users messages
-let chatIdGlobal = ""
+let chatIdGlobal = "" // declared so useEffect has access to value in chat component for creating collection for both users messages
 let stateGlobal = false //used this to trigger messages to retrieve from useEffect, didnt work
 
 function Chat(props) {
@@ -87,6 +86,7 @@ function Chat(props) {
     div.scrollIntoView();
   }
 
+  //useEffect for retrieving messages onSnapshot
   useEffect(() => {
     if (chatIdGlobal !== "") { //prevents page from crashing
       let chatMessages = []
@@ -286,7 +286,6 @@ function FriendsList(props) {
     // console.log(stateGlobal)
     setIsOpen(!open)
     // console.log("values passed to startChat - userId =" + userId + " receiverUid = " + receiverUid + " senderImgUrl = " + senderImgUrl)
-    receiverIdGlobal = receiverUid // for access up tree 
     if (userId < receiverUid) {
       chatIdGlobal = receiverUid + userId
     } else {
