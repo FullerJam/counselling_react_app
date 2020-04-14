@@ -12,7 +12,7 @@ import firebaseConfig from "./config/firebase"
 import 'firebase/auth'
 import "firebase/firestore"
 import useAuth from "./services/firebase/useAuth"
-import useDateSelect from "./services/firebase/useDateSelect"
+import useAppointments from "./services/firebase/useAppointments"
 import useChat from "./services/firebase/useChat"
 import useFriendsList from "./services/firebase/useFriendsList"
 
@@ -108,7 +108,7 @@ function App() {
   const {
     createAppointment,
     readAppointments
-  } = useDateSelect(firebase.firestore)
+  } = useAppointments(firebase.firestore)
   const {
     writeChatMsg,
     createDirectMsgRepo

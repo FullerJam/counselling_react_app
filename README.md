@@ -34,6 +34,8 @@ Created using the [Coinbase UI Kit](https://freedesignresources.net/free-coinbas
 
 ###Development
 
+The single page application developed for this assignmentment was built using Facebooks javascript framework React
+
 ####Folder Structure
 ```
 counselling_app
@@ -109,7 +111,10 @@ counselling_app
 └── yarn.lock
 ```
 
-####Styling Solution
+
+####Additional dependencies used
+
+
 #####Styled Components
 [Styled components](https://styled-components.com/) harnesses template literals and Cascading Style Sheets (CSS) to create a styling solution that can be written directly within your javascript file to declare components that can be rendered like any other component. The below code snippet shows how the component is declared, styles inserted using CSS and how functions can be interpolated into the template literal. Here a global theme is declared for the buttons background colour and a prop used to provide margin styling for each individual button.
 
@@ -194,11 +199,24 @@ export default theme;
 
 
 ```
-####Component animations
 
 **Framer Motion** 
 Github - https://github.com/framer/motion
-[Framer motion](https://www.framer.com/motion/) is an additional javascript library used for react to power transitions and animation throughout application with ease. Used for every page transistion and messaging speach bubbles animations.
+[Framer motion](https://www.framer.com/motion/) is an additional javascript library used for react to power transitions and animation throughout application with ease. Used for every page transistion and messaging speech bubble animations.
+
+**React loader spinner**
+[React-loader-spinner](https://www.npmjs.com/package/react-loader-spinner) Provides collections of SVG animations which can be utilised during async await delays. This was combined with a styled component wrapper to do just that.
+
+**React Hook Form**
+[React Hook Form](https://react-hook-form.com/), a more concise and more performant javascript library for implementing forms with simple validation. Used for implementing the login form for authentication 
+
+**Yup**
+[yup](https://github.com/jquense/yup), a javascript object schema builder for value parsing and validation. Used in conjunction with React Hook form, although probably not necessary for such simple validation.
+
+**Moment**
+[Moment](https://www.npmjs.com/package/moment), a JavaScript date library for manipulating and formatting dates. Utilised within the appointments dash board, dates select and Chat features of the application.
+
+**Firebase**
 
 
 ###Application Features
@@ -206,11 +224,14 @@ Github - https://github.com/framer/motion
 
 ####Appointment Dashboard
 
+#####useAppointments Hook
+
 ####Appointment Booking Interface
+#####useAppointments Hook
 **React Calender**
 [React Calender](https://www.npmjs.com/package/react-calendar)
 ####Private Messaging
-
+#####Hook
 The private messaging feature is the most complex View/Component combination within the application and presented the most problems during development. 
 
 Initially to get basic functionality working for the 'Urgent Chat' feature within the application all message objects submitted were stored in the same collection within firebase. 
