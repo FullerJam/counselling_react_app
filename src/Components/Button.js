@@ -25,15 +25,11 @@ const StyledButton = styled.button`
 function Button(props) {
     const { onClick, text, m } = props;
 
-
-
     return (
         <React.Fragment>
-
             <StyledButton onClick={onClick} m={m}>
                 {text}
             </StyledButton>
-
         </React.Fragment>
     );
 }

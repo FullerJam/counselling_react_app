@@ -52,8 +52,6 @@ const StyledTime = styled.p`
 `
 
 
-
-
 function ChatBubble(props) {
 
     const { chatMessage, sender } = props
