@@ -70,12 +70,12 @@ function Header(props) {
       {location.pathname === "/" &&  (
           <Back> </Back>
         )}
-        {location.pathname !== "/chat" && location.pathname !== "/" && location.pathname !== "/appt_confirmation" && (
+        {location.pathname !== "/chat" && location.pathname !== "/" && (
           <Back> <span onClick={handleClick} style={{ cursor: "pointer" }}><span style={{ fontSize: "18px" }}>‹&nbsp;</span>Back</span> </Back>
         )}
-        {location.pathname === "/appt_confirmation" && (
+        {/* {location.pathname === "/appt_confirmation" && (
           <Back> <span onClick={handleHomeClick} style={{ cursor: "pointer" }}><span style={{ fontSize: "18px" }}>‹&nbsp;</span>Home</span> </Back>
-        )}
+        )} */}
         {/* had to have two for home button because || didnt work for some reason */}
         {location.pathname === "/chat" && (
           <Back> <span onClick={handleHomeClick} style={{ cursor: "pointer" }}><span style={{ fontSize: "18px" }}>‹&nbsp;</span>Home</span> </Back>

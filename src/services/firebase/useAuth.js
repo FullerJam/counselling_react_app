@@ -11,7 +11,7 @@ function useAuth(fbAuth) {
    const [user, setUser] = useState({})
    const [loading, setLoading] = useState(true);
 
-   fbAuth().onAuthStateChanged(async fbUser => {
+   fbAuth().onAuthStateChanged( fbUser => {
       setLoading(false);
       if (fbUser) {
          setIsAuthenticated(true)

@@ -10,6 +10,7 @@ import moment from "moment";
 import UserContext from "../config/user-context"
 
 import theme from "../config/theme.js"
+const uuidv1 = require('uuid/v1');
 
 const StyledWrapper = styled.div`
     width:90vw;
@@ -74,11 +75,7 @@ function DateSelect(props) {
                 <div style={calendarStyle}> {/*wouldnt work directly on Calendar*/}
                     <motion.div initial={{ scale: 0.5 }}
                         animate={{ scale: 1 }}
-                        transition={{
-                            type: "spring",
-                            stiffness: 260,
-                            damping: 20
-                        }}>
+                        >
                         <Calendar minDate={moment().add(1, 'days').toDate()} onChange={onChange}/>
                     </motion.div>
                 </div>

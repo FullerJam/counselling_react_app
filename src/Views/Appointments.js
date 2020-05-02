@@ -80,22 +80,27 @@ function Appointments(props) {
     let pastAppts = []
     const [pastApptTotal, setPastApptTotal] = useState(0)
     const [appointments, setAppointments] = useState([])
-    const { variants, readAppointments } = props
-    
+    const { variants, readAppointments, cancelAppointment } = props
+
     useEffect(() => {
         const getAllAppointments = async () => {
-            const allAppointments = await readAppointments(user)
-            let appts = []
-            allAppointments.forEach(appointment => appts.push({ ...appointment.data(), ...{ id: appointment.id } }))
-            const date = new Date()
-            pastAppts = appts.map(appointment => moment(appointment.date).isBefore(date, 'day')) //returns array of booleans
-            setPastApptTotal(pastAppts.filter(Boolean).length) // filter booleans to see total number
-            setAppointments(appts) 
-            // console.log(appts)           
+            try {
+                const allAppointments = await readAppointments(user)
+                let appts = []
+                allAppointments.forEach(appointment => appts.push({ ...appointment.data(), ...{ id: appointment.id } }))
+                const date = new Date()
+                pastAppts = appts.map(appointment => moment(appointment.date).isBefore(date, 'day')) //returns array of booleans
+                setPastApptTotal(pastAppts.filter(Boolean).length) // filter booleans to see total number
+                setAppointments(appts)
+                // console.log(appts)   
+            } catch (error) {
+                console.log(error)
+            }
+
         }
         getAllAppointments()
 
-    }, [useAuth, readAppointments, setAppointments, user.uid])
+    }, [useAuth, readAppointments, setAppointments, user])
 
     return (
         <motion.div initial="out" animate="in" exit="out" variants={variants}>
@@ -116,7 +121,7 @@ function Appointments(props) {
             </StyledBackground>
             <StyledAppointmentsWrap>
                 {
-                    appointments.map(appt => <ApptTile variants={variants} appointment={appt} />)
+                    appointments.map(appt => <ApptTile cancelAppointment={cancelAppointment} variants={variants} appointment={appt} />)
                 }
             </StyledAppointmentsWrap>
         </motion.div>
@@ -131,16 +136,29 @@ Appointments.defaultProps = {
 
 
 const StyledDate = styled.p`
+    display:flex;
+    flex-direction:column;
+    justify-content:flex-end;
     color:grey!important;
+    min-width:100px;
     @media (max-width: 580px){
         display:none;
+    }
+    button{
+        max-width:80px;
     }
 `
 const StyledDate2 = styled.p`
     color:grey!important;
     display:none;
+    justify-items:flex-start;
     @media only screen and (max-width: 579px){
-        display:block!important;
+        /* display:block!important; */
+        display:flex;
+        flex-direction:column;
+    }
+    button{
+        max-width:80px;
     }
 `
 const StyledIconCircle = styled.div`
@@ -159,48 +177,104 @@ const StyledApptInfo1 = styled.div`
 `
 
 const StyledApptWrapper = styled.div`
-            display:flex;
-            justify-content:space-between;
-            max-width:1000px;
-            padding:20px;
-            margin:0 auto;
-            h6{
-                color:grey;
-                margin:5px 0;
-                padding:0px;
-            }
-            p{
-                font-size:13px;
-                margin-top:4px;
-                color:${({ theme, appointment }) => moment(appointment.date).isBefore(currentDate, 'day') ? theme.colors.red : theme.colors.green}
-            }
+    display:flex;
+    justify-content:space-between;
+    max-width:1000px;
+    padding:20px;
+    margin:0 auto;
+    h6{
+        color:grey;
+        margin:5px 0;
+        padding:0px;
+    }
+    p{
+        font-size:13px;
+        margin-top:4px;
+        color:${({ theme, appointment }) => moment(appointment.date).isBefore(currentDate, 'day') ? theme.colors.red : theme.colors.green}
+    }
     `
+
+const StyledCancelButton = styled.button`
+    color: #6c757d;
+    border-color: #6c757d;
+    display: inline-block;
+    font-weight: 400;
+    text-align: center;
+    vertical-align: middle;
+    cursor: pointer;
+    /* -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none; */
+    background-color: #d4d4d4;
+    border: 1px solid transparent;
+    padding: .375rem .75rem;
+    line-height: 1.5;
+    border-radius: .25rem;
+    transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+    :hover {
+        color: #fff;
+        background-color: #6c757d;
+        border-color: #6c757d
+    }
+    :focus {
+        box-shadow: 0 0 0 .2rem rgba(108, 117, 125, .5)
+    }
+    :disabled {
+        color: #6c757d;
+        background-color: transparent
+    }
+`
 //Date check variables date-fns library
 const currentDate = new Date()
 
 function ApptTile(props) {
+    const user = useContext(UserContext)
+    const { appointment, cancelAppointment } = props
 
-    const { appointment, variants } = props
+    const cancelHandler = async id => {
+        console.log("cancel handler id: " + id)
+        console.log("user id: " + user.uid)
+
+        try {
+            await cancelAppointment(id)
+        } catch (error) {
+            alert(error)
+        }
+    }
+
 
     return (
         <div>
-            <StyledApptWrapper appointment={appointment}>
-                <StyledApptInfo1>
-                    <StyledIconCircle>
-                        <img src={apptIcon} alt="appt icon" />
-                    </StyledIconCircle>
-                    <div>
-                        <h6>{moment(appointment.date).isBefore(currentDate, 'day') ? "Completed" : "Upcoming"} Appointment</h6>
-                        <p>{appointment.date}</p>
-                        <StyledDate2>
-                            {moment(appointment.bookedOn.toDate()).fromNow()}
-                        </StyledDate2>
-                    </div>
-                </StyledApptInfo1>
-                <StyledDate>
-                    {moment(appointment.bookedOn.toDate()).fromNow()}
-                </StyledDate>
-            </StyledApptWrapper>
+            <motion.div initial={{ scale: 0.5 }}
+                animate={{ scale: 1 }}
+                transition={{
+                    type: "spring",
+                    stiffness: 260,
+                    damping: 20
+                }}>
+                <StyledApptWrapper appointment={appointment}>
+                    <StyledApptInfo1>
+                        <StyledIconCircle>
+                            <img src={apptIcon} alt="appt icon" />
+                        </StyledIconCircle>
+                        <div>
+                            <h6>{moment(appointment.date).isBefore(currentDate, 'day') ? "Completed" : "Upcoming"} Appointment</h6>
+                            <p>{appointment.date}</p>
+                            <StyledDate2>
+                                {moment(appointment.bookedOn.toDate()).fromNow()}
+                                <StyledCancelButton onClick={e => cancelHandler(appointment.id)}>Cancel</StyledCancelButton>
+                            </StyledDate2>
+                        </div>
+                    </StyledApptInfo1>
+                    <StyledDate>
+                        {moment(appointment.bookedOn.toDate()).fromNow()}
+                        <StyledCancelButton onClick={e => cancelHandler(appointment.id)}>Cancel</StyledCancelButton>
+                    </StyledDate>
+                </StyledApptWrapper>
+
+
+            </motion.div>
         </div>
 
     )

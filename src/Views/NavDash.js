@@ -15,7 +15,7 @@ import urgentChatIcon from "../assets/urgent_chat_icon.svg"
 const ImgContainer = styled.div`
 margin-top:10px;
     img{
-        width:70px;
+        width:80px;
     }
 `
 const StyledGreeting = styled.h4`

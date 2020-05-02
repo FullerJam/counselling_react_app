@@ -107,7 +107,8 @@ function App() {
 
   const {
     createAppointment,
-    readAppointments
+    readAppointments,
+    cancelAppointment
   } = useAppointments(firebase.firestore)
   const {
     writeChatMsg,
@@ -158,7 +159,7 @@ function App() {
             </RedirectRoute>
 
             <Protected authenticated={isAuthenticated} path="/appointments">
-              <Appointments variants={variants} readAppointments={readAppointments} key="4" />
+              <Appointments variants={variants} readAppointments={readAppointments} cancelAppointment={cancelAppointment} key="4" />
             </Protected>
 
             <Protected authenticated={isAuthenticated} path="/select_date">
